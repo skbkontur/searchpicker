@@ -1,11 +1,15 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     entry: {
-        searchpickerjs: ["./sample/main.ts"]
+        searchpicker: "./src/index.ts",
+        app: "./sample/main.ts"
     },
     output: {
         path: __dirname + "/dist",
         filename: "[name].js",
-        publicPath: "/dist/",
+        publicPath: "",
         chunkFilename: "[name].js"
     },
     resolve: {
@@ -32,5 +36,26 @@ module.exports = {
         ]
     },
     plugins: [
+        new CopyWebpackPlugin([
+            {
+                from: 'src/css/searchPicker.css',
+                to: 'searchPicker.css'
+            },
+            {
+                from: 'sample/sample.css',
+                to: 'sample.css'
+            },
+            {
+                from: 'index.html',
+                to: 'index.html'
+            }
+        ]),
+
+        new HtmlWebpackPlugin({
+            template: 'index.html',
+            filename: 'index.html',
+            inject: true,
+            chunksSortMode: 'dependency'
+        })
     ]
 };

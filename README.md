@@ -4,19 +4,21 @@ Searchpicker or combo-box dropdown, written in typescript. No dependencies.
 
 ## Start local sample
 
+``` shell
+npm i && npm start
 ```
-npm start
-```
+
+Server stared at `http://localhost:8080`
 
 ## How to use
 
-```
+``` shell
 npm i searchpicker-ts --save
 ```
 
 Initialize picker control to specified container
 
-```
+``` typescript
 let searchPicker2 = new SearchPicker(document.getElementById('searchpicker-container'), options);
 ```
 
@@ -64,7 +66,7 @@ export interface ISearcher {
 
 Sample of custom data searcher
 
-```
+``` typescript
 export class BackendSearcher implements ISearcher {
 
     private pickerItems: IPickerItem[] = null;
@@ -80,6 +82,7 @@ export class BackendSearcher implements ISearcher {
         if (this.tmrId)
             clearTimeout(this.tmrId);
 
+        // fetch data from server
         fetch("api/search?q" + query)
             .then((results) => {
                 onresults(results.map(r => { return {title: r.title, id: r.login} }));
@@ -100,7 +103,9 @@ You can subscribe for searchpicker events and read current selected values
 
 Invokes when user add new choice
 
-```
+``` typescript
+const picker = new SearchPicker(...);
+
 picker.on("choiceAdded", (item: IPickerItem) => {
    console.log(picker.getChoices());
 });
@@ -110,12 +115,13 @@ picker.on("choiceAdded", (item: IPickerItem) => {
 
 Invokes when user remove selected choice
 
-```
+``` typescript
+const picker = new SearchPicker(...);
+
 picker.on("choiceRemoved", (item: IPickerItem) => {
    console.log(picker.getChoices());
 });
 ```
-
 
 ## Run e2e tests
 
