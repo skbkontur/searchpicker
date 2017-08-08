@@ -1,0 +1,32 @@
+import { EventObject } from "./EventObject";
+import { IPickerItem } from "./pickeritems/IPickerItem";
+import { SearchPickerChoices } from "./SearchPickerChoices";
+import { SearchPickerResults } from "./SearchPickerResults";
+import { ISearchPickerOptions } from "./options/ISearchPickerOptions";
+export declare class SearchPicker extends EventObject {
+    private container;
+    pickerItems: IPickerItem[];
+    choices: SearchPickerChoices;
+    results: SearchPickerResults;
+    options: ISearchPickerOptions;
+    private inFocus;
+    private choicesElm;
+    private searchTmrId;
+    constructor(container: any, options: ISearchPickerOptions);
+    getChoices(): IPickerItem[];
+    clearChoices(): void;
+    addChoice(item: IPickerItem): void;
+    removeChoice(item: IPickerItem): void;
+    updateSource(source: any[]): void;
+    focus(): void;
+    private setupHtml();
+    private bindEvents();
+    private onSearch(text);
+    private onChoiceRemoved(item);
+    private onClick();
+    private onEscape();
+    private onSelect(e, selectedVia?);
+    private onResultSelected(result);
+    private applyTemplate();
+    private extendOptions(def, user);
+}
