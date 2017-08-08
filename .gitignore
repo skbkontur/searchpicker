@@ -41,4 +41,3 @@ bower_components
 .DS_Store
 
 build.stats.json
-dist
