@@ -1,0 +1,14 @@
+.flex{
+    display: flex;
+}
+
+.pickerResult{
+    font-family: monospace;
+    font-size:12px;
+    margin:12px;
+    padding:5px;
+}
+
+.search-picker-wrapper{
+    flex-shrink: 0;
+}
