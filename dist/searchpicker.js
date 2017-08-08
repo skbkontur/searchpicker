@@ -270,7 +270,7 @@ var DefaultSearchPickerOptions = (function () {
             return root;
         };
         this.noResultsRenderer = function (query) {
-            return document.createTextNode('По запросу "' + __WEBPACK_IMPORTED_MODULE_1__Utils__["a" /* Utility */].htmlEncode(query) + '" ничего не найдено');
+            return document.createTextNode('No results found for "' + __WEBPACK_IMPORTED_MODULE_1__Utils__["a" /* Utility */].htmlEncode(query) + '"');
         };
         this.choiceRenderer = function (item, renderClose) {
             var choice = document.createElement('span');
