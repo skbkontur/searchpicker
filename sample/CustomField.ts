@@ -1,6 +1,6 @@
-import {SearchPickerResults} from "./src";
-import {DefaultSearchPickerOptions} from "./src/options/DefaultSearchPickerOptions";
-import {ISearchPickerOptions} from "./src/options/ISearchPickerOptions";
+import {SearchPickerResults} from "../src";
+import {DefaultSearchPickerOptions} from "../src/options/DefaultSearchPickerOptions";
+import {ISearchPickerOptions} from "../src/options/ISearchPickerOptions";
 import {TESTDATA} from "./testdata";
 
 export class CustomField {

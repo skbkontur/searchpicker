@@ -1,6 +1,6 @@
 module.exports = {
     entry: {
-        searchpickerjs: ["./main.ts"]
+        searchpickerjs: ["./sample/main.ts"]
     },
     output: {
         path: __dirname + "/dist",

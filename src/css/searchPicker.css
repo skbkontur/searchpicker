@@ -24,8 +24,6 @@
   padding:0;
 }
 
-
-
 .search-picker ul.form-control.active {
   border-color: #097ac6;
   outline: 0;
@@ -210,8 +208,9 @@
   border-radius: 3px;
   padding: 0;
 }
-.search-picker .dropdown-menu li a {
+.search-picker .dropdown-menu > li > a {
   padding: 3px 10px;
+  display: block;
 }
 .search-picker .dropdown-menu li:hover {
   background-color: rgba(0, 0, 0, 0.02);

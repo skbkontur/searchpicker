@@ -6,56 +6,58 @@
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=cyrillic" rel="stylesheet">
     <link href="src/css/searchPicker.css" rel="stylesheet" />
-
     <script src="dist/searchpickerjs.js"></script>
-    <style>
-        .flex{
-            display: flex;
-        }
 
-        .pickerResult{
-            font-family: monospace;
-            font-size:12px;
-            margin:12px;
-            padding:5px;
-        }
+    <link href="sample/sample.css" rel="stylesheet" />
 
-        .search-picker-wrapper{
-            flex-shrink: 0;
-        }
-    </style>
 </head>
 <body>
+
+    <h2>Simple picker</h2>
     <div class="flex">
+
         <div class="search-picker-wrapper" style="width:308px;">
             <div class="search-picker" id="searchpicker"></div>
         </div>
         <div class="pickerResult" id="searchpicker-result"></div>
     </div>
+
+    <h2>Single choice</h2>
     <div class="flex">
         <div class="search-picker-wrapper" style="width:308px;">
             <div class="search-picker" id="searchpicker-singlechoice"></div>
         </div>
         <div class="pickerResult" id="searchpicker-result-singlechoice"></div>
     </div>
+
+    <h2>Start search from 3 symbols</h2>
     <div class="flex">
         <div class="search-picker-wrapper" style="width:510px;" >
             <div class="search-picker" id="searchpicker-unlim"></div>
         </div>
         <div class="pickerResult" id="searchpicker-result-unlim"></div>
     </div>
+
+    <h2>Start search from 3 symbols</h2>
     <div class="flex">
         <div class="search-picker-wrapper" style="width:308px;" >
             <div class="search-picker" id="searchpicker-top3"></div>
         </div>
         <div class="pickerResult" id="searchpicker-result-top3"></div>
     </div>
+
+    <h2>Cuts long item text</h2>
     <div class="flex">
         <div class="search-picker-wrapper" style="width:308px;" >
             <div class="search-picker" id="searchpicker-cutlong"></div>
         </div>
         <div class="pickerResult" id="searchpicker-result-cutlong"></div>
     </div>
+
+    <h2>Custom field</h2>
+    <p>
+        Allow to use searchpicker autocomplete to any field or custom input control
+    </p>
     <div class="flex">
         <div class="search-picker-wrapper search-picker" style="width:308px;" >
             <textarea  style="width:100%;height:86px;" placeholder="Custom Field" id="searchpicker-customfield"></textarea>

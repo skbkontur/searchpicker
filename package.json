@@ -1,15 +1,17 @@
 {
-  "name": "searchpicker-ts",
-  "version": "1.0.1",
+  "name": "searchpicker",
+  "version": "1.0.2",
   "description": "",
   "main": "./searchpicker/index.ts",
   "typings": "./searchpicker-ts.d.ts",
   "scripts": {
     "start": "webpack-dev-server --config webpack.config.js --progress --profile --watch",
     "test": "npm run test:build && protractor ./e2e/conf.js",
+    "build:demo": "webpack --config webpack.config.js --progress --profile --watch",
     "test:build": "node ./node_modules/typescript/bin/tsc -p e2e && webdriver-manager update"
   },
   "license": "MIT",
+  "repository": "https://github.com/skbkontur/searchpicker-ts.git",
   "dependencies": {},
   "devDependencies": {
     "@types/jasmine": "^2.5.53",
@@ -20,7 +22,7 @@
     "selenium-standalone": "^5.7.2",
     "selenium-webdriver": "^3.0.0",
     "typescript": "^2.4.1",
-    "webpack": "^3.0.0",
-    "webpack-dev-server": "^2.5.0"
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.6.1"
   }
 }

@@ -1,5 +1,5 @@
 import {TESTDATA, TESTDATA_LONG} from './testdata'
-import {SearchPicker} from "./src/";
+import {SearchPicker} from "../src";
 import {CustomField} from "./CustomField";
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -44,14 +44,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     new CustomField("#searchpicker-customfield");
 });
 
-function bindPickerResultOutput(searchPicker: SearchPicker, name?: string){
+function bindPickerResultOutput(picker: SearchPicker, name?: string){
     let resHolder = document.getElementById(name ? 'searchpicker-result-'+name : 'searchpicker-result');
-    let picker = searchPicker;
 
-    searchPicker.on("choiceAdded", () => {
+    picker.on("choiceAdded", () => {
         resHolder.innerHTML= picker.getChoices().map(elm=> elm.id).join(",");
     });
-    searchPicker.on("choiceRemoved", () => {
+    picker.on("choiceRemoved", () => {
         resHolder.innerHTML= picker.getChoices().map(elm=> elm.id).join(",");
     });
 
