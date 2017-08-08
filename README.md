@@ -28,9 +28,9 @@ let searchPicker2 = new SearchPicker(document.getElementById('searchpicker-conta
 
 `placeholder: string` - Default `''`
 
-`maxSelectedChoices: number` - amount of choice that user can select. 1 - single choice. Default - unlimited
+`maxSelectedChoices: number` - amount of choices that user can select. 1 - single choice. Default - unlimited
 
-`minLengthToSearch: number` - minimal text length to start search
+`minLengthToSearch: number` - minimal text length in field length to start search from
 
 `searchInValues: boolean` - instruct default searcher to search text in picker identifiers. Default - false
 
@@ -46,7 +46,7 @@ let searchPicker2 = new SearchPicker(document.getElementById('searchpicker-conta
 
 `choiceRenderer: (item: IPickerItem, renderClose?:boolean) => Node` - allow to override default choice view
 
-`searcher: ISearcher` - alows add custom logic for result search. For instance: async fetch data from server side.
+`searcher: ISearcher` - allows to add custom logic for result search. For instance: async fetch data from server side.
 
 ### ISearcher
 
