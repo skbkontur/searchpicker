@@ -26,7 +26,7 @@ export class DefaultSearchPickerOptions implements ISearchPickerOptions {
         return root;
     };
     noResultsRenderer = (query: string) => {
-        return document.createTextNode('По запросу "' + Utility.htmlEncode(query) + '" ничего не найдено');
+        return document.createTextNode('No results found for "' + Utility.htmlEncode(query) + '"');
     };
 
     choiceRenderer = (item: IPickerItem, renderClose?:boolean) =>{
