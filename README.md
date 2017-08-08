@@ -2,6 +2,8 @@
 
 Searchpicker or combo-box dropdown, written in typescript. No dependencies.
 
+[Demo page](http://tech.skbkontur.ru/searchpicker-ts/)
+
 ## Start local sample
 
 ``` shell
