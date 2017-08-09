@@ -2,7 +2,7 @@
 
 Searchpicker or combo-box dropdown with multiple choices support, written in typescript. No dependencies.
 
-[Demo page](http://tech.skbkontur.ru/searchpicker-ts/)
+[Demo page](http://tech.skbkontur.ru/searchpicker/)
 
 ## How to install
 
