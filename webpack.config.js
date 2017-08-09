@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        searchpicker: "./src/Index.ts",
+        searchpicker: "./src/index.ts",
         app: "./sample/main.ts"
     },
     output: {
