@@ -7,11 +7,14 @@
   "scripts": {
     "postinstall": "webdriver-manager update",
     "start": "webpack-dev-server --config webpack.config.js --progress --profile --watch",
-    "test": "npm run test:build && protractor ./e2e/conf.js",
+    "test": "npm run build:test && npm run build:demo && npm run test:run",
+    "test:run": "npm-run-all -p -r server:ci protractor",
+    "protractor": "protractor ./e2e/protractor.conf.js",
     "build:demo": "rimraf dist/* && webpack --config webpack.config.js --progress --profile",
-    "test:build": "node ./node_modules/typescript/bin/tsc -p e2e",
+    "build:test": "tsc -p e2e",
+    "build:lib": "rimraf lib/* && tsc -p tsconfig.lib.json",
     "githubpages": "git subtree push --prefix dist origin gh-pages",
-    "build:lib": "rimraf lib/* && tsc -p tsconfig.lib.json"
+    "server:ci": "http-server dist -p 3000 -c-1 --cors"
   },
   "license": "MIT",
   "repository": "https://github.com/skbkontur/searchpicker.git",
@@ -21,8 +24,10 @@
     "awesome-typescript-loader": "^3.1.3",
     "copy-webpack-plugin": "^4.0.1",
     "html-webpack-plugin": "^2.30.1",
+    "http-server": "^0.10.0",
     "jasmine": "^2.5.41",
     "jasmine-reporters": "^2.2.0",
+    "npm-run-all": "^4.0.2",
     "protractor": "^5.1.2",
     "rimraf": "^2.6.1",
     "selenium-standalone": "^5.7.2",

@@ -13,7 +13,7 @@
     "node_modules/@types"
   ],
   "include": [
-    "conf.ts",
+    "protractor.conf.ts",
     "specs/*spec.ts"
   ]
 }

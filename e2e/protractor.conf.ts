@@ -1,16 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var protractor_1 = require("protractor");
-var wpCnf = require('../webpack.config.js');
-exports.config = {
-    baseUrl: 'http://' + wpCnf.devServer.host + ':' + wpCnf.devServer.port + '/',
+import {browser, Config} from 'protractor';
+
+export let config: Config = {
+    baseUrl: 'http://localhost:3000/',
+
     specs: [
         './specs/*.spec.js',
         './specs/spec.js'
     ],
     exclude: [],
+
     framework: 'jasmine2',
+
     allScriptsTimeout: 110000,
+
     jasmineNodeOpts: {
         showTiming: true,
         showColors: true,
@@ -19,13 +21,26 @@ exports.config = {
         defaultTimeoutInterval: 400000
     },
     directConnect: true,
+
     multiCapabilities: [
         {
             browserName: 'chrome'
         },
+        // TODO не получилось завести, разобраться, в ФФ возмонжо проблема с этим https://github.com/angular/zone.js/issues/616
+        // {
+        //   browserName: 'firefox'
+        // },
+
+        // {
+        //   browserName: 'internet explorer',
+        //   platform: 'ANY',
+        //   version: '11'
+        // }
     ],
+
     onPrepare: function () {
-        protractor_1.browser.waitForAngularEnabled(false);
+        browser.waitForAngularEnabled(false);
     },
     seleniumArgs: ['-Dwebdriver.ie.driver=node_modules/protractor/selenium/IEDriverServer.exe'],
+
 };

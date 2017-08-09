@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var protractor_1 = require("protractor");
 var TestHelpers_1 = require("../TestHelpers");
-var wpConfig = require('../../webpack.config.js');
+var TestHelpers_2 = require("./TestHelpers");
 describe('search picker', function () {
     describe('results', function () {
         beforeAll(function () {
-            protractor_1.browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            TestHelpers_2.openPage();
         });
         it('should be displayed on click', function () {
             protractor_1.element(protractor_1.by.css("#searchpicker")).click().then(function () {
@@ -61,7 +61,7 @@ describe('search picker', function () {
     describe('choices', function () {
         beforeAll(function () {
             var inputEl;
-            protractor_1.browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port).then(function () {
+            TestHelpers_2.openPage().then(function () {
                 inputEl = protractor_1.element(protractor_1.by.css("#searchpicker li.search-field input"));
                 return inputEl.click();
             }).then(function () {
@@ -131,7 +131,7 @@ describe('search picker', function () {
     });
     describe('search', function () {
         beforeAll(function () {
-            protractor_1.browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            TestHelpers_2.openPage();
         });
         it('should have no-results view', function () {
             var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker li.search-field input"));
@@ -143,7 +143,7 @@ describe('search picker', function () {
     });
     describe('config', function () {
         beforeAll(function () {
-            protractor_1.browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            TestHelpers_2.openPage();
         });
         it('should respect limit results option', function () {
             var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.search-field input"));
@@ -156,7 +156,7 @@ describe('search picker', function () {
     describe('multiple choices select', function () {
         beforeEach(function () {
             var inputEl;
-            protractor_1.browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port).then(function () {
+            TestHelpers_2.openPage().then(function () {
                 inputEl = protractor_1.element(protractor_1.by.css("#searchpicker li.search-field input"));
                 return inputEl.click();
             }).then(function () {
@@ -215,7 +215,7 @@ describe('search picker', function () {
     });
     describe('results without choices', function () {
         beforeAll(function () {
-            protractor_1.browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            TestHelpers_2.openPage();
         });
         it('should provide results dropdown', function () {
             var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker-customfield"));

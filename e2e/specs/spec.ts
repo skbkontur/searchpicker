@@ -1,6 +1,6 @@
 import {browser, by, element, protractor} from "protractor";
 import {hasClass, sleep} from "../TestHelpers";
-let wpConfig = require('../../webpack.config.js');
+import {openPage} from "./TestHelpers";
 declare var expect: any;
 
 
@@ -10,7 +10,7 @@ describe('search picker', () => {
     describe('results', () => {
 
         beforeAll(() => {
-            browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            openPage();
         });
 
         it('should be displayed on click', () => {
@@ -80,7 +80,7 @@ describe('search picker', () => {
 
         beforeAll(() => {
             let inputEl;
-            browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port).then(() => {
+            openPage().then(() => {
                 inputEl = element(by.css("#searchpicker li.search-field input"));
                 return inputEl.click();
             }).then(() => {
@@ -169,7 +169,7 @@ describe('search picker', () => {
 
     describe('search', () => {
         beforeAll(() => {
-            browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            openPage();
         });
 
         it('should have no-results view', () => {
@@ -184,7 +184,7 @@ describe('search picker', () => {
 
     describe('config', () => {
         beforeAll(() => {
-            browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            openPage();
         });
 
         it('should respect limit results option', () => {
@@ -201,7 +201,7 @@ describe('search picker', () => {
     describe('multiple choices select', () => {
         beforeEach(() => {
             let inputEl;
-            browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port).then(() => {
+            openPage().then(() => {
                 inputEl = element(by.css("#searchpicker li.search-field input"));
                 return inputEl.click();
             }).then(() => {
@@ -270,7 +270,7 @@ describe('search picker', () => {
 
     describe('results without choices', () => {
         beforeAll(() => {
-            browser.get('http://' + wpConfig.devServer.host + ':' + wpConfig.devServer.port);
+            openPage();
         });
 
         it('should provide results dropdown', () => {
