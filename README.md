@@ -21,7 +21,9 @@ npm i searchpicker-ts --save
 Initialize picker control to specified container
 
 ``` typescript
-let searchPicker2 = new SearchPicker(document.getElementById('searchpicker-container'), options);
+import {SearchPicker} from 'searchpicker-ts';
+
+const picker = new SearchPicker(document.getElementById('searchpicker-container'), options);
 ```
 
 ### Options
@@ -85,7 +87,7 @@ export class BackendSearcher implements ISearcher {
             clearTimeout(this.tmrId);
 
         // fetch data from server
-        fetch("api/search?q" + query)
+        fetch("api/search?q=" + query)
             .then((results) => {
                 onresults(results.map(r => { return {title: r.title, id: r.login} }));
             }, err => {
@@ -99,7 +101,7 @@ export class BackendSearcher implements ISearcher {
 
 ## Events
 
-You can subscribe for searchpicker events and read current selected values
+You can subscribe for picker events and read current selected values
 
 ### choiceAdded
 
