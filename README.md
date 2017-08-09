@@ -1,24 +1,32 @@
 # searchpicker
 
-Searchpicker or combo-box dropdown, written in typescript. No dependencies.
+Searchpicker or combo-box dropdown with multiple choices support, written in typescript. No dependencies.
 
 [Demo page](http://tech.skbkontur.ru/searchpicker-ts/)
+
+## How to install
+
+add to your package.json
+``` json
+"searchpicker-ts": "git+https://github.com/skbkontur/searchpicker-ts.git",
+```
+
+then run
+``` shell
+npm i
+```
 
 ## Start local sample
 
 ``` shell
-npm i && npm start
+npm start
 ```
 
 Server stared at `http://localhost:8080`
 
 ## How to use
 
-``` shell
-npm i searchpicker-ts --save
-```
-
-Initialize picker control to specified container
+Initialize picker control to specified container in your app:
 
 ``` typescript
 import {SearchPicker} from 'searchpicker-ts';
