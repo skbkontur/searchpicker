@@ -14,7 +14,7 @@
     "build:lib": "rimraf lib/* && tsc -p tsconfig.lib.json"
   },
   "license": "MIT",
-  "repository": "https://github.com/skbkontur/searchpicker-ts.git",
+  "repository": "https://github.com/skbkontur/searchpicker.git",
   "dependencies": {},
   "devDependencies": {
     "@types/jasmine": "^2.5.53",
