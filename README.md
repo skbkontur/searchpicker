@@ -1,4 +1,4 @@
-# searchpicker
+# searchpicker [![Build Status](https://travis-ci.org/skbkontur/searchpicker.svg?branch=master)](https://travis-ci.org/skbkontur/searchpicker)
 
 Searchpicker or combo-box dropdown with multiple choices support, written in typescript. No dependencies.
 
