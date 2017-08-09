@@ -109,7 +109,7 @@ var Utility = (function () {
                 foundItems.push(item);
             }
             else if (itemName.indexOf(' ') >= 0 || itemName.indexOf('[') === 0 || itemName.indexOf('\\') >= 0) {
-                var parts = itemName.replace(/\[|\]/g, '').replace(/\\/g, ' ').split(' ');
+                var parts = itemName.replace(/[\[]/g, '').replace(/\\/g, ' ').split(' ');
                 if (parts.length) {
                     for (var j = 0; j < parts.length; j++) {
                         var part = parts[j];
@@ -316,10 +316,10 @@ var SearchPickerChoices = (function (_super) {
         var _this = _super.call(this) || this;
         _this.container = container;
         _this.options = options;
-        _this.pendingBackstroke = [];
         _this.selected = [];
         _this.keepActive = false;
         _this.isActive = false;
+        _this.pendingBackstroke = [];
         _this.sizerElm = document.getElementById('__srchpicker-sizer');
         if (_this.sizerElm) {
             _this.sizerElmText = _this.sizerElm.childNodes[0];
@@ -888,13 +888,13 @@ var SearchPickerResults = (function (_super) {
             }
         }
     };
-    SearchPickerResults.prototype.isSelected = function (id) {
-        return typeof (this.selectedObj[id]) !== 'undefined';
-    };
     /* устанавливаем флаг, что не нужно обрабатывать результаты поиска
         (напр.  из-зп того что поле сейчас пустое) */
     SearchPickerResults.prototype.setProcessSearchResponses = function (process) {
         this.processSearchResponses = process;
+    };
+    SearchPickerResults.prototype.isSelected = function (id) {
+        return typeof (this.selectedObj[id]) !== 'undefined';
     };
     SearchPickerResults.prototype.searchInternal = function (query) {
         var _this = this;
