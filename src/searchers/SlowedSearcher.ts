@@ -1,5 +1,3 @@
-
-
 import {ISearcher} from "./ISearcher";
 import {IPickerItem} from "../pickeritems/IPickerItem";
 import {ISearchPickerOptions} from "../options/ISearchPickerOptions";
@@ -7,10 +5,10 @@ import {Utility} from "../Utils";
 
 
 export class SlowedSearcher implements ISearcher {
+
     private pickerItems: IPickerItem[] = null;
-    private lastSearchText: string;
     private foundItems: IPickerItem[] = [];
-    private tmrId: number;
+    private tmrId: any;
 
     search(query: string
         , options: ISearchPickerOptions
@@ -32,8 +30,8 @@ export class SlowedSearcher implements ISearcher {
     }
 
     private $map(source: any[], options: ISearchPickerOptions): IPickerItem[] {
-        var result: IPickerItem[] = [];
-        for (var i = 0; i < source.length; i++) {
+        let result: IPickerItem[] = [];
+        for (let i = 0; i < source.length; i++) {
             result.push(options.pickerItemFactory(source[i]));
         }
         return result;

@@ -11,16 +11,16 @@ export class DefaultSearchPickerOptions implements ISearchPickerOptions {
     maxSelectedChoices: number = 0;
     minLengthToSearch: number = 1;
     searchInValues: boolean = false;
-    resultsLimit:number;
+    resultsLimit: number;
     //Представление элемента
     pickerItemFactory: (item: any) => IPickerItem = (item) => {
         return DefaultPickerItem.create(item.id, item.title);
     };
     resultRenderer: (item: IPickerItem, query: string) => Node = (item, query) => {
-        var root = document.createElement('a');
+        let root = document.createElement('a');
         root.setAttribute('href', '#');
-        var textNodes = Utility.wrapResultText(item.title, query);
-        for (var i = 0; i < textNodes.length; i++) {
+        let textNodes = Utility.wrapResultText(item.title, query);
+        for (let i = 0; i < textNodes.length; i++) {
             root.appendChild(textNodes[i]);
         }
         return root;
@@ -29,19 +29,19 @@ export class DefaultSearchPickerOptions implements ISearchPickerOptions {
         return document.createTextNode('No results found for "' + Utility.htmlEncode(query) + '"');
     };
 
-    choiceRenderer = (item: IPickerItem, renderClose?:boolean) =>{
+    choiceRenderer = (item: IPickerItem, renderClose?: boolean) => {
         let choice = document.createElement('span');
         choice.appendChild(document.createTextNode(item.title));
 
-        if(renderClose){
+        if (renderClose) {
             let close = document.createElement('a');
             close.href = 'javascript: void(0);';
             close.className = 'search-choice-close';
 
             choice.appendChild(close);
         }
-        
+
         return choice;
-    }
+    };
     searcher: ISearcher = new DefaultSearcher();
 }

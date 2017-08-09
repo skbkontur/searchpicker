@@ -17,7 +17,7 @@ export class SearchPickerResults extends EventObject {
     private highlightedEl: any;
     private lastSearchQuery: string = null;
 
-    private processSearchResponses:boolean = true;
+    private processSearchResponses: boolean = true;
 
     constructor(private sourceElm: HTMLElement, private options: ISearchPickerOptions) {
         super();
@@ -155,7 +155,7 @@ export class SearchPickerResults extends EventObject {
         }
     }
 
-    getHighlighted():IPickerItem {
+    getHighlighted(): IPickerItem {
         if (this.highlightedEl) {
             let hi = this.getItemById(this.highlightedEl.getAttribute("data-id"));
             if (hi) {
@@ -164,14 +164,14 @@ export class SearchPickerResults extends EventObject {
         }
     }
 
-    private isSelected(id: string) {
-        return typeof (this.selectedObj[id]) !== 'undefined';
-    }
-
     /* устанавливаем флаг, что не нужно обрабатывать результаты поиска
         (напр.  из-зп того что поле сейчас пустое) */
-    setProcessSearchResponses(process:boolean){
+    setProcessSearchResponses(process: boolean) {
         this.processSearchResponses = process;
+    }
+
+    private isSelected(id: string) {
+        return typeof (this.selectedObj[id]) !== 'undefined';
     }
 
     private searchInternal(query: string) {

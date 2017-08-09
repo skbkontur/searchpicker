@@ -3,12 +3,13 @@
  */
 import {IPickerItem} from "./pickeritems/IPickerItem";
 import {ISearchPickerOptions} from "./options/ISearchPickerOptions";
+
 export class Utility {
 
     static wrapResultText(source: string, query: string): Node[] {
-        var nodes: Node[] = [];
-        var startpos: number;
-        var zregex = new RegExp(query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
+        let nodes: Node[] = [];
+        let startpos: number;
+        let zregex = new RegExp(query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
         if (query.length) {
             startpos = source.search(zregex);
             if (startpos < 0) {
@@ -16,7 +17,7 @@ export class Utility {
             } else {
                 nodes.push(document.createTextNode(source.substr(0, startpos)));
 
-                var em = document.createElement('em');
+                let em = document.createElement('em');
                 em.appendChild(document.createTextNode(source.substr(0, startpos + query.length).substr(startpos)));
                 nodes.push(em);
                 nodes.push(document.createTextNode(source.substr(startpos + query.length)));
@@ -30,14 +31,14 @@ export class Utility {
     static filterItems(items: IPickerItem[], query: string, options: ISearchPickerOptions): IPickerItem[] {
         query = Utility.ltrim(query);//trim input query
 
-        var regex = new RegExp('^' + query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
+        let regex = new RegExp('^' + query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), 'i');
 
-        var ref: IPickerItem[] = items.slice(0);
-        var foundItems: IPickerItem[] = [];
+        let ref: IPickerItem[] = items.slice(0);
+        let foundItems: IPickerItem[] = [];
 
-        for (var i = 0; i < ref.length; i++) {
-            var item = ref[i];
-            var itemName = item.title;
+        for (let i = 0; i < ref.length; i++) {
+            let item = ref[i];
+            let itemName = item.title;
 
             if (options.searchInValues) {
                 itemName += ' ' + item.id.replace(/^\w+\\/g, '');
@@ -47,10 +48,10 @@ export class Utility {
                 foundItems.push(item);
             }
             else if (itemName.indexOf(' ') >= 0 || itemName.indexOf('[') === 0 || itemName.indexOf('\\') >= 0) {
-                var parts = itemName.replace(/\[|\]/g, '').replace(/\\/g, ' ').split(' ');
+                let parts = itemName.replace(/[\[]/g, '').replace(/\\/g, ' ').split(' ');
                 if (parts.length) {
-                    for (var j = 0; j < parts.length; j++) {
-                        var part = parts[j];
+                    for (let j = 0; j < parts.length; j++) {
+                        let part = parts[j];
                         if (regex.test(part)) {
                             foundItems.push(item);
                             break;
@@ -63,7 +64,7 @@ export class Utility {
     }
 
     static parseHtml(html: string): any {
-        var root = document.createElement("div");
+        let root = document.createElement("div");
         root.innerHTML = html;
         return root.firstChild;
     }
@@ -77,14 +78,14 @@ export class Utility {
     }
 
     static getAttribute(element: any, attrName: string): string {
-        var attr = element.attributes[attrName];
+        let attr = element.attributes[attrName];
         if (!attr) return undefined;
         return attr.value;
     }
 
     static htmlEncode(value: string): string {
-        var div = document.createElement('div');
-        var text = document.createTextNode(value);
+        let div = document.createElement('div');
+        let text = document.createTextNode(value);
         div.appendChild(text);
         return div.innerHTML;
     }
@@ -103,13 +104,13 @@ export class Utility {
                 elem.classList.remove(clsName);
                 return;
             }
-            var reg = new RegExp('(\\s|^)' + clsName + '(\\s|$)');
+            let reg = new RegExp('(\\s|^)' + clsName + '(\\s|$)');
             elem.className = elem.className.replace(reg, ' ');
         }
     }
 
     static getCssPropertyValue(elem: any, propname: string): string {
-        var computedStyle;
+        let computedStyle;
         if (window.getComputedStyle) {
             computedStyle = window.getComputedStyle(elem, null);
         } else {
@@ -138,8 +139,8 @@ export class Utility {
     }
 
     static insertAfter(elem: HTMLElement, refElem: HTMLElement) {
-        var parent = refElem.parentNode;
-        var next = refElem.nextSibling;
+        let parent = refElem.parentNode;
+        let next = refElem.nextSibling;
         if (next) {
             return parent.insertBefore(elem, next);
         } else {

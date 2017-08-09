@@ -2,25 +2,24 @@
 import {IPickerItem} from "./pickeritems/IPickerItem";
 import {ISearchPickerOptions} from "./options/ISearchPickerOptions";
 import {Utility} from "./Utils";
+
 export class SearchPickerChoices extends EventObject {
 
+    selected: IPickerItem[] = [];
+    keepActive: boolean = false;
+    isActive: boolean = false;
+    
     private inputElm: any;
     private inputJsElmWrap: any;
     private backstrokeLength: number;
     private pendingBackstroke: HTMLLIElement[] = [];
     private highlightedChoice: any;
-
     private sizerElm: HTMLDivElement;
     private sizerElmText: Text;
-
     private inFocus: boolean;
     private prevInputTextLength: number;
     // флаг, обозначающий что пользователь не стирает текст, и есть смысл автодополнять
     private shouldUpdateAutoComplete: boolean;
-
-    selected: IPickerItem[] = [];
-    keepActive: boolean = false;
-    isActive: boolean = false;
 
     constructor(private container: any
         , private options: ISearchPickerOptions) {
@@ -41,7 +40,7 @@ export class SearchPickerChoices extends EventObject {
     }
 
     removeChoice(item: IPickerItem) {
-        for (var i = 0; i < this.selected.length; i++) {
+        for (let i = 0; i < this.selected.length; i++) {
             if (this.selected[i].id === item.id) {
                 this.selected.splice(i, 1);
                 this.removeChoiceElement(item.id.toString());
@@ -53,8 +52,8 @@ export class SearchPickerChoices extends EventObject {
     }
 
     removeAll() {
-        var length = this.selected.length;
-        for (var i = 0; i < length; i++) {
+        let length = this.selected.length;
+        for (let i = 0; i < length; i++) {
             this.removeChoice(this.selected[0]);
         }
     }
@@ -83,7 +82,7 @@ export class SearchPickerChoices extends EventObject {
     }
 
     setAutocompleteText(text: string) {
-        if(!this.shouldUpdateAutoComplete){
+        if (!this.shouldUpdateAutoComplete) {
             return;
         }
 
@@ -91,7 +90,7 @@ export class SearchPickerChoices extends EventObject {
             this.removeAutocompleteText();
 
             let selStart = this.inputElm.value.length;
-            if(text.toUpperCase().search(this.inputElm.value.toUpperCase())===0){
+            if (text.toUpperCase().search(this.inputElm.value.toUpperCase()) === 0) {
                 this.inputElm.value = text;
             } else {
                 this.inputElm.value += ` (${text})`;
@@ -103,8 +102,8 @@ export class SearchPickerChoices extends EventObject {
 
     }
 
-    removeAutocompleteText(){
-        if(this.inputElm.selectionStart){
+    removeAutocompleteText() {
+        if (this.inputElm.selectionStart) {
             this.inputElm.value = this.inputElm.value.substring(0, this.inputElm.selectionStart);
         }
     }
@@ -139,11 +138,11 @@ export class SearchPickerChoices extends EventObject {
 
     private ensureSizerElement() {
         if (!this.sizerElm) {
-            var div = document.createElement('div');
-            var styleBlock = "position:absolute; left: -1000px; top: -1000px;";
-            var styles = ['font-size', 'font-style', 'font-weight', 'font-family', 'line-height', 'text-transform', 'letter-spacing'];
-            for (var i = 0; i < styles.length; i++) {
-                var style = styles[i];
+            let div = document.createElement('div');
+            let styleBlock = "position:absolute; left: -1000px; top: -1000px;";
+            let styles = ['font-size', 'font-style', 'font-weight', 'font-family', 'line-height', 'text-transform', 'letter-spacing'];
+            for (let i = 0; i < styles.length; i++) {
+                let style = styles[i];
                 styleBlock += style + ":" + Utility.getCssPropertyValue(this.inputElm, style) + ";";
             }
             div.id = '__srchpicker-sizer';
@@ -169,9 +168,9 @@ export class SearchPickerChoices extends EventObject {
         this.inputElm.onkeyup = (e) => {
             this.onKeyUp(e);
         };
-        this.inputElm.oninput = (e) =>{
+        this.inputElm.oninput = (e) => {
             // IE 11 может выбросить событие input при установке плейсхолдера в элемент
-            if(document.activeElement !== e.target) {
+            if (document.activeElement !== e.target) {
                 return;
             }
             this.onInput(e);
@@ -224,7 +223,7 @@ export class SearchPickerChoices extends EventObject {
         }
     }
 
-    private onInput(evt:any){
+    private onInput(evt: any) {
         this.shouldUpdateAutoComplete = this.prevInputTextLength <= this.inputElm.value.length;
         this.prevInputTextLength = this.inputElm.value.length;
 
@@ -264,7 +263,7 @@ export class SearchPickerChoices extends EventObject {
             case 37:
             case 39:
                 // возможный сброс выделения с текста автодополнения
-                if(this.inputElm.selectionStart !== this.inputElm.selectionEnd){
+                if (this.inputElm.selectionStart !== this.inputElm.selectionEnd) {
                     this.onInput(evt);
                 }
                 break;
@@ -362,8 +361,8 @@ export class SearchPickerChoices extends EventObject {
     }
 
     private removeChoiceElement(id: string) {
-        var choices = this.container.getElementsByTagName('li');
-        for (var i = 0; i < choices.length; i++) {
+        let choices = this.container.getElementsByTagName('li');
+        for (let i = 0; i < choices.length; i++) {
             if (Utility.hasClass(choices[i], 'search-choice')
                 && Utility.getAttribute(choices[i], 'data-id') === id) {
                 choices[i].parentElement.removeChild(choices[i]);
@@ -406,17 +405,17 @@ export class SearchPickerChoices extends EventObject {
             if (e.metaKey || e.ctrlKey) {
                 Utility.addClass(choice, "search-choice-focus");
                 this.pendingBackstroke.push(choice);
-            } else if(e.shiftKey){
+            } else if (e.shiftKey) {
                 let newChoices = this.getChoicesRange(choice, this.pendingBackstroke[this.pendingBackstroke.length - 1]);
 
-                for(let ch of newChoices){
+                for (let ch of newChoices) {
                     Utility.addClass(ch, "search-choice-focus");
                     this.pendingBackstroke.push(ch);
                 }
 
             } else {
                 this.pendingBackstroke.forEach(el => {
-                    if(el !== choice){
+                    if (el !== choice) {
                         Utility.removeClass(el, "search-choice-focus");
                     }
                 });
@@ -444,22 +443,22 @@ export class SearchPickerChoices extends EventObject {
     }
 
     private getSelectedChoiceById(id: string): IPickerItem {
-        for (var i = 0; i < this.selected.length; i++) {
+        for (let i = 0; i < this.selected.length; i++) {
             if (this.selected[i].id.toString() === id)
                 return this.selected[i];
         }
         return null;
     }
 
-    private getChoicesRange(choice1: HTMLLIElement, choice2: HTMLLIElement) : HTMLLIElement[]{
+    private getChoicesRange(choice1: HTMLLIElement, choice2: HTMLLIElement): HTMLLIElement[] {
         let nodesToAdd = [], inInterval = false;
 
-        for (let k=0, e=this.container.childNodes.item(0);k < this.container.childNodes.length;++k){
-            if(e === choice1 || e === choice2){
+        for (let k = 0, e = this.container.childNodes.item(0); k < this.container.childNodes.length; ++k) {
+            if (e === choice1 || e === choice2) {
                 nodesToAdd.push(e);
                 inInterval = !inInterval;
-                if(!inInterval) break;
-            } else if(inInterval && Utility.hasClass(e,"search-choice")){
+                if (!inInterval) break;
+            } else if (inInterval && Utility.hasClass(e, "search-choice")) {
                 nodesToAdd.push(e);
             }
             e = e.nextSibling
