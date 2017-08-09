@@ -6,14 +6,8 @@ Searchpicker or combo-box dropdown with multiple choices support, written in typ
 
 ## How to install
 
-add to your package.json
-``` json
-"searchpicker-ts": "git+https://github.com/skbkontur/searchpicker-ts.git",
-```
-
-then run
 ``` shell
-npm i
+npm i searchpicker --save
 ```
 
 ## Start local sample
@@ -29,7 +23,7 @@ Server stared at `http://localhost:8080`
 Initialize picker control to specified container in your app:
 
 ``` typescript
-import {SearchPicker} from 'searchpicker-ts';
+import {SearchPicker} from 'searchpicker';
 
 const picker = new SearchPicker(document.getElementById('searchpicker-container'), options);
 ```
@@ -141,3 +135,8 @@ picker.on("choiceRemoved", (item: IPickerItem) => {
 npm run test
 ```
 
+## Build library
+
+``` shell
+npm run build:lib
+```

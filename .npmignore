@@ -5,6 +5,8 @@ testdata.ts
 tsconfig.json
 webpack.config.js
 e2e/
+dist/
+sample/
 
 
 

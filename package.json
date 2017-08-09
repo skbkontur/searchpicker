@@ -2,15 +2,16 @@
   "name": "searchpicker",
   "version": "1.0.3",
   "description": "",
-  "main": "./searchpicker/index.ts",
-  "typings": "./searchpicker-ts.d.ts",
+  "main": "./lib/Index.js",
+  "typings": "./lib/Index.d.ts",
   "scripts": {
     "postinstall": "webdriver-manager update",
     "start": "webpack-dev-server --config webpack.config.js --progress --profile --watch",
     "test": "npm run test:build && protractor ./e2e/conf.js",
     "build:demo": "rimraf dist/* && webpack --config webpack.config.js --progress --profile",
     "test:build": "node ./node_modules/typescript/bin/tsc -p e2e",
-    "githubpages": "git subtree push --prefix dist origin gh-pages"
+    "githubpages": "git subtree push --prefix dist origin gh-pages",
+    "build:lib": "rimraf lib/* && tsc -p tsconfig.lib.json"
   },
   "license": "MIT",
   "repository": "https://github.com/skbkontur/searchpicker-ts.git",
