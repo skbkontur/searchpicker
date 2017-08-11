@@ -8,7 +8,7 @@ export class SearchPickerChoices extends EventObject {
     selected: IPickerItem[] = [];
     keepActive: boolean = false;
     isActive: boolean = false;
-    
+
     private inputElm: any;
     private inputJsElmWrap: any;
     private backstrokeLength: number;
@@ -89,8 +89,10 @@ export class SearchPickerChoices extends EventObject {
         if (text && this.inputElm.value.length) {
             this.removeAutocompleteText();
 
-            let selStart = this.inputElm.value.length;
-            if (text.toUpperCase().search(this.inputElm.value.toUpperCase()) === 0) {
+            let selStart = this.inputElm.value.length,
+                inputValue = this.escapeRegexp(this.inputElm.value);
+
+            if (text.toUpperCase().search(inputValue.toUpperCase()) === 0) {
                 this.inputElm.value = text;
             } else {
                 this.inputElm.value += ` (${text})`;
@@ -106,6 +108,10 @@ export class SearchPickerChoices extends EventObject {
         if (this.inputElm.selectionStart) {
             this.inputElm.value = this.inputElm.value.substring(0, this.inputElm.selectionStart);
         }
+    }
+
+    private escapeRegexp(text: string) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     }
 
     private setup() {

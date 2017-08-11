@@ -28,13 +28,13 @@ export class SearchPickerResults extends EventObject {
 
     hide() {
         if (!this.isShown) return;
-        this.dropdownElm.style.left = '-9000px';
+        this.dropdownElm.style.display = 'none';
         this.isShown = false;
     }
 
     show() {
         if (this.isShown) return;
-        this.dropdownElm.style.left = '0';
+        this.dropdownElm.style.display = 'block';
         this.isShown = true;
         this.invalidateActiveResultByIndex();
     }
@@ -232,7 +232,8 @@ export class SearchPickerResults extends EventObject {
         Utility.insertAfter(this.dropdownElm, this.sourceElm);
 
         this.resultsElm = this.$template();
-        this.dropdownElm.style.left = '-9000px';
+        this.dropdownElm.style.left = '0';
+        this.dropdownElm.style.display = 'none';
         this.dropdownElm.appendChild(this.resultsElm);
     }
 
