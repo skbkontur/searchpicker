@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -243,9 +243,9 @@ var EventObject = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DefaultSearchPickerOptions; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pickeritems_DefaultPickerItem__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pickeritems_DefaultPickerItem__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Utils__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__searchers_DefaultSearcher__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__searchers_DefaultSearcher__ = __webpack_require__(7);
 
 
 
@@ -377,8 +377,8 @@ var SearchPickerChoices = (function (_super) {
         }
         if (text && this.inputElm.value.length) {
             this.removeAutocompleteText();
-            var selStart = this.inputElm.value.length;
-            if (text.toUpperCase().search(this.inputElm.value.toUpperCase()) === 0) {
+            var selStart = this.inputElm.value.length, inputValue = this.escapeRegexp(this.inputElm.value);
+            if (text.toUpperCase().search(inputValue.toUpperCase()) === 0) {
                 this.inputElm.value = text;
             }
             else {
@@ -393,6 +393,9 @@ var SearchPickerChoices = (function (_super) {
         if (this.inputElm.selectionStart) {
             this.inputElm.value = this.inputElm.value.substring(0, this.inputElm.selectionStart);
         }
+    };
+    SearchPickerChoices.prototype.escapeRegexp = function (text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     };
     SearchPickerChoices.prototype.setup = function () {
         this.applyTemplate();
@@ -766,13 +769,13 @@ var SearchPickerResults = (function (_super) {
     SearchPickerResults.prototype.hide = function () {
         if (!this.isShown)
             return;
-        this.dropdownElm.style.left = '-9000px';
+        this.dropdownElm.style.display = 'none';
         this.isShown = false;
     };
     SearchPickerResults.prototype.show = function () {
         if (this.isShown)
             return;
-        this.dropdownElm.style.left = '0';
+        this.dropdownElm.style.display = 'block';
         this.isShown = true;
         this.invalidateActiveResultByIndex();
     };
@@ -946,7 +949,8 @@ var SearchPickerResults = (function (_super) {
         this.dropdownElm.className = 'dropdown';
         __WEBPACK_IMPORTED_MODULE_0__Utils__["a" /* Utility */].insertAfter(this.dropdownElm, this.sourceElm);
         this.resultsElm = this.$template();
-        this.dropdownElm.style.left = '-9000px';
+        this.dropdownElm.style.left = '0';
+        this.dropdownElm.style.display = 'none';
         this.dropdownElm.appendChild(this.resultsElm);
     };
     SearchPickerResults.prototype.bindEvents = function () {
@@ -1111,6 +1115,32 @@ var SearchPickerResults = (function (_super) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__options_DefaultSearchPickerOptions__ = __webpack_require__(2);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultSearchPickerOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__options_DefaultSearchPickerOptions__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EventObject__ = __webpack_require__(1);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "EventObject", function() { return __WEBPACK_IMPORTED_MODULE_1__EventObject__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SearchPicker__ = __webpack_require__(8);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SearchPicker", function() { return __WEBPACK_IMPORTED_MODULE_2__SearchPicker__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SearchPickerChoices__ = __webpack_require__(3);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SearchPickerChoices", function() { return __WEBPACK_IMPORTED_MODULE_3__SearchPickerChoices__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SearchPickerResults__ = __webpack_require__(4);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SearchPickerResults", function() { return __WEBPACK_IMPORTED_MODULE_4__SearchPickerResults__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Utils__ = __webpack_require__(0);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Utility", function() { return __WEBPACK_IMPORTED_MODULE_5__Utils__["a"]; });
+
+
+
+
+
+
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DefaultPickerItem; });
 var DefaultPickerItem = (function () {
     function DefaultPickerItem() {
@@ -1127,7 +1157,7 @@ var DefaultPickerItem = (function () {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1164,7 +1194,7 @@ function $map(source, options) {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1324,34 +1354,6 @@ var SearchPicker = (function (_super) {
     };
     return SearchPicker;
 }(__WEBPACK_IMPORTED_MODULE_0__EventObject__["a" /* EventObject */]));
-
-
-
-/***/ }),
-/* 8 */,
-/* 9 */,
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__options_DefaultSearchPickerOptions__ = __webpack_require__(2);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultSearchPickerOptions", function() { return __WEBPACK_IMPORTED_MODULE_0__options_DefaultSearchPickerOptions__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__EventObject__ = __webpack_require__(1);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "EventObject", function() { return __WEBPACK_IMPORTED_MODULE_1__EventObject__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SearchPicker__ = __webpack_require__(7);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SearchPicker", function() { return __WEBPACK_IMPORTED_MODULE_2__SearchPicker__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SearchPickerChoices__ = __webpack_require__(3);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SearchPickerChoices", function() { return __WEBPACK_IMPORTED_MODULE_3__SearchPickerChoices__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SearchPickerResults__ = __webpack_require__(4);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SearchPickerResults", function() { return __WEBPACK_IMPORTED_MODULE_4__SearchPickerResults__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Utils__ = __webpack_require__(0);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Utility", function() { return __WEBPACK_IMPORTED_MODULE_5__Utils__["a"]; });
-
-
-
-
-
 
 
 
