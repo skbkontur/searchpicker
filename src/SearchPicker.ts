@@ -148,6 +148,7 @@ export class SearchPicker extends EventObject {
 
     private applyTemplate() {
         this.choicesElm = document.createElement('ul');
+        this.choicesElm.setAttribute("tabindex", 0);
         this.choicesElm.className = 'choices form-control';
         if (this.options.maxSelectedChoices === 1) {
             Utility.addClass(this.choicesElm, "sole-choice");
