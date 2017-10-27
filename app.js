@@ -284,6 +284,7 @@ var DefaultSearchPickerOptions = (function () {
             return choice;
         };
         this.searcher = new __WEBPACK_IMPORTED_MODULE_2__searchers_DefaultSearcher__["a" /* DefaultSearcher */]();
+        this.resultFooterRenderer = null;
     }
     return DefaultSearchPickerOptions;
 }());
