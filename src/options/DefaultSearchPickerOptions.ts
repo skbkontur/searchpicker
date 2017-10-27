@@ -44,4 +44,6 @@ export class DefaultSearchPickerOptions implements ISearchPickerOptions {
         return choice;
     };
     searcher: ISearcher = new DefaultSearcher();
+
+    resultFooterRenderer? = null;
 }
