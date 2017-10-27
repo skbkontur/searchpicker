@@ -903,7 +903,7 @@ var SearchPickerResults = (function (_super) {
         var _this = this;
         this.lastSearchQuery = query;
         this.setProcessSearchResponses(true);
-        return this.options.searcher.search(query, this.options, function (items) {
+        return this.options.searcher.search(query, this.options, function (items, data) {
             if (query !== _this.lastSearchQuery || !_this.processSearchResponses) {
                 return;
             }
@@ -931,15 +931,19 @@ var SearchPickerResults = (function (_super) {
             if (!hasResults) {
                 if (_this.hideOnEmptyResults) {
                     _this.hide();
+                    return;
                 }
                 else {
                     _this.resultsElm.appendChild(_this.$buildNoResults(query));
-                    _this.show();
                 }
             }
-            else {
-                _this.show();
+            if (_this.options.resultFooterRenderer) {
+                var footer = _this.$buildResultsFooter(query, items, data);
+                if (footer != null) {
+                    _this.resultsElm.appendChild(footer);
+                }
             }
+            _this.show();
         }, function (message) {
             _this.resultsElm.appendChild(_this.$buildErrorResult(message));
         });
@@ -971,7 +975,7 @@ var SearchPickerResults = (function (_super) {
             return false;
         };
     };
-    SearchPickerResults.prototype.$buildResult = function (item, query) {
+    SearchPickerResults.prototype.$buildResult = function (item, query, data) {
         var result = document.createElement('li');
         result.className = 'result';
         var idStr = item.id.toString();
@@ -980,6 +984,20 @@ var SearchPickerResults = (function (_super) {
             result.className += ' disabled';
         result.appendChild(this.options.resultRenderer(item, query));
         return result;
+    };
+    SearchPickerResults.prototype.$buildResultsFooter = function (query, results, data) {
+        var footer = document.createElement('div');
+        footer.className = 'result-footer';
+        if (this.options.resultFooterRenderer) {
+            var footerContent = this.options.resultFooterRenderer(query, results, data);
+            if (footerContent) {
+                footer.appendChild(footerContent);
+            }
+            else {
+                return null;
+            }
+        }
+        return footer;
     };
     SearchPickerResults.prototype.clearHighlighted = function () {
         this.highlightedIndex = this.getDefaultHighlightedIndex();
@@ -1335,6 +1353,7 @@ var SearchPicker = (function (_super) {
     };
     SearchPicker.prototype.applyTemplate = function () {
         this.choicesElm = document.createElement('ul');
+        this.choicesElm.setAttribute("tabindex", 0);
         this.choicesElm.className = 'choices form-control';
         if (this.options.maxSelectedChoices === 1) {
             __WEBPACK_IMPORTED_MODULE_4__Utils__["a" /* Utility */].addClass(this.choicesElm, "sole-choice");
@@ -2393,6 +2412,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__testdata__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CustomField__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CustomRenderers__ = __webpack_require__(12);
+
 
 
 
@@ -2428,6 +2449,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
         minLengthToSearch: 0,
     });
     bindPickerResultOutput(searchPicker5, 'cutlong');
+    var searchPicker6 = new __WEBPACK_IMPORTED_MODULE_1__src__["SearchPicker"](document.getElementById('searchpicker-footer'), {
+        placeholder: 'Footer',
+        source: __WEBPACK_IMPORTED_MODULE_0__testdata__["a" /* TESTDATA */],
+        minLengthToSearch: 0,
+        resultsLimit: 3,
+        resultFooterRenderer: __WEBPACK_IMPORTED_MODULE_3__CustomRenderers__["a" /* CustomRenderers */].footerRenderer
+    });
+    bindPickerResultOutput(searchPicker6, 'footer');
     new __WEBPACK_IMPORTED_MODULE_2__CustomField__["a" /* CustomField */]("#searchpicker-customfield");
 });
 function bindPickerResultOutput(picker, name) {
@@ -2497,6 +2526,31 @@ var CustomField = (function () {
         }
     }
     return CustomField;
+}());
+
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CustomRenderers; });
+var CustomRenderers = (function () {
+    function CustomRenderers() {
+    }
+    CustomRenderers.footerRenderer = function (query, results, data) {
+        if (!query)
+            return null;
+        var root = document.createElement('div');
+        root.style.textAlign = 'center';
+        root.style.padding = '10px';
+        root.style.fontWeight = 'bold';
+        root.style.backgroundColor = '#EEE';
+        root.appendChild(document.createTextNode('Some results could be filtered due to query parameters'));
+        return root;
+    };
+    return CustomRenderers;
 }());
 
 

@@ -15,6 +15,7 @@ export interface ISearchPickerResultsOptions {
     source: any[];
 
     resultRenderer?: (item: IPickerItem, query: string) => Node;
+    resultFooterRenderer?: (query: string, results: IPickerItem[], data?:any) => Node;
     noResultsRenderer?: (query: string) => Node;
     choiceRenderer?: (item: IPickerItem, renderClose?: boolean) => Node;
     searcher?: ISearcher;

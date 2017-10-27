@@ -12,7 +12,7 @@ export class DefaultSearcher implements ISearcher {
 
     search(query: string
         , options: ISearchPickerOptions
-        , onresults: (items: IPickerItem[]) => void
+        , onresults: (items: IPickerItem[], data?:any) => void
         , onerror?: (message: string) => void) {
 
         if (this.tmrId)

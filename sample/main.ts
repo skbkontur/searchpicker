@@ -1,6 +1,7 @@
 import {TESTDATA, TESTDATA_LONG} from './testdata'
 import {SearchPicker} from "../src";
 import {CustomField} from "./CustomField";
+import {CustomRenderers} from "./CustomRenderers";
 
 document.addEventListener("DOMContentLoaded", function(event) {
     let searchPicker = new SearchPicker(document.getElementById('searchpicker'), {
@@ -39,6 +40,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
         minLengthToSearch: 0,
     });
     bindPickerResultOutput(searchPicker5,'cutlong');
+
+
+    let searchPicker6 = new SearchPicker(document.getElementById('searchpicker-footer'), {
+        placeholder: 'Footer',
+        source: TESTDATA,
+        minLengthToSearch: 0,
+        resultsLimit: 3,
+        resultFooterRenderer: CustomRenderers.footerRenderer
+    });
+    bindPickerResultOutput(searchPicker6,'footer');
 
 
     new CustomField("#searchpicker-customfield");

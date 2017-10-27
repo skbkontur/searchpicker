@@ -11,7 +11,7 @@ export interface ISearcher {
      */
     search(query: string
         , options: ISearchPickerOptions
-        , onresults: (items: IPickerItem[]) => void
-        , onerror?: (message: string) => void);
+        , onresults: (items: IPickerItem[], data?:any) => void
+        , onerror?: (message: string, data?:any) => void);
 }
 

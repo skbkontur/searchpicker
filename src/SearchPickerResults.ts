@@ -178,7 +178,7 @@ export class SearchPickerResults extends EventObject {
         this.lastSearchQuery = query;
 
         this.setProcessSearchResponses(true);
-        return this.options.searcher.search(query, this.options, (items) => {
+        return this.options.searcher.search(query, this.options, (items, data) => {
 
             if (query !== this.lastSearchQuery || !this.processSearchResponses) {
                 return;
@@ -213,13 +213,22 @@ export class SearchPickerResults extends EventObject {
             if (!hasResults) {
                 if (this.hideOnEmptyResults) {
                     this.hide();
+                    return;
                 } else {
                     this.resultsElm.appendChild(this.$buildNoResults(query));
-                    this.show();
                 }
-            } else {
-                this.show();
             }
+
+            if(this.options.resultFooterRenderer){
+                let footer = this.$buildResultsFooter(query, items, data);
+                if (footer != null) {
+                    this.resultsElm.appendChild(footer);
+                }
+            }
+
+
+            this.show();
+
 
         }, (message) => {
             this.resultsElm.appendChild(this.$buildErrorResult(message));
@@ -255,7 +264,7 @@ export class SearchPickerResults extends EventObject {
         };
     }
 
-    private $buildResult(item: IPickerItem, query: string): Node {
+    private $buildResult(item: IPickerItem, query: string, data?:any): Node {
         let result = document.createElement('li');
         result.className = 'result';
         let idStr = item.id.toString();
@@ -264,6 +273,20 @@ export class SearchPickerResults extends EventObject {
             result.className += ' disabled';
         result.appendChild(this.options.resultRenderer(item, query));
         return result;
+    }
+
+    private $buildResultsFooter(query: string, results?:IPickerItem[], data?:any): Node{
+        let footer = document.createElement('div');
+        footer.className = 'result-footer';
+        if(this.options.resultFooterRenderer) {
+            let footerContent = this.options.resultFooterRenderer(query, results, data);
+            if(footerContent){
+                footer.appendChild(footerContent);
+            } else {
+                return null;
+            }
+        }
+        return footer;
     }
 
     private clearHighlighted() {
