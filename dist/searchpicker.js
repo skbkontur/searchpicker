@@ -483,7 +483,9 @@ var SearchPickerChoices = (function (_super) {
                 this.scaleSearchField();
                 break;
             case 13:
-                evt.preventDefault();
+                if (this.inputElm.value) {
+                    evt.preventDefault();
+                }
                 this.$notifyEvent('enter', evt);
                 break;
             case 27:
@@ -522,7 +524,9 @@ var SearchPickerChoices = (function (_super) {
             case 13:
             case 16:
             case 17:
-                evt.preventDefault();
+                if (this.inputElm.value) {
+                    evt.preventDefault();
+                }
                 break;
             case 38:
                 evt.preventDefault();
