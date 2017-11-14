@@ -24,7 +24,10 @@
   padding:0;
 }
 
-.search-picker ul.form-control.active,  .search-picker ul.form-control:focus, .search-picker ul.form-control:active{
+.search-picker ul.form-control.active,
+.search-picker ul.form-control:focus,
+.search-picker ul.form-control:active,
+.search-picker ul.form-control:focus-within{
   border-color: #097ac6;
   outline: 0;
   box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.35);
@@ -79,22 +82,15 @@
   line-height: 22px;
 }
 
-.search-picker ul.form-control li.search-choice.search-choice-focus {
-color: #FFF;
-background-color: #3991e6;
-}
+
 
 /* Хак для состояния фокуса при скрытом input'е через tabindex, когда можно выбрать только 1 вариант (search-choice-close)*/
 .search-picker ul.form-control:focus li.search-choice.sole-choice.search-choice-focus{
   color: #FFF;
   background-color: #3991e6;
 }
-.search-picker ul.form-control li.search-choice.sole-choice.search-choice-focus {
-  color:#000;
-}
-.search-picker ul.form-control:focus li.search-choice.search-choice-focus .search-choice-close:after{
-  color:#fff;
-}
+
+
 
 .search-picker ul.form-control li.search-choice:active,
 .search-picker ul.form-control li.search-choice:focus{
@@ -120,6 +116,15 @@ background-color: #3991e6;
   height:22px;
   line-height: 22px;
   background: #fff;
+}
+
+
+.search-picker ul.form-control li.search-choice.search-choice-focus {
+  color: #FFF;
+  background-color: #3991e6;
+}
+.search-picker ul.form-control li.search-choice.search-choice-focus .search-choice-close:after{
+  color:#fff;
 }
 
 .search-picker ul.form-control li.search-choice.sole-choice span {
