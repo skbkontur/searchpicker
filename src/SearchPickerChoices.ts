@@ -350,7 +350,9 @@ export class SearchPickerChoices extends EventObject {
         this.inFocus = false;
         if (!this.isActive) return;
         setTimeout(() => {
+
             if (!this.keepActive) {
+
                 Utility.removeClass(this.container, 'active'); // active in ul root elem
                 this.isActive = false;
                 this.clearBackstroke();
@@ -396,6 +398,7 @@ export class SearchPickerChoices extends EventObject {
 
     private $renderChoice(item: IPickerItem, index: number): any {
         let choice = document.createElement('li');
+        choice.tabIndex = 0; //important to receive keyboard events
         choice.className = 'search-choice';
         choice.setAttribute('data-id', item.id.toString());
 
@@ -434,8 +437,10 @@ export class SearchPickerChoices extends EventObject {
 
             //e.preventDefault();
             e.stopPropagation();
+            if(this.inputElm.style.display !== "none"){
+                this.inputElm.focus();
+            }
 
-            this.inputElm.focus();
         };
 
         choice.onkeyup = (e) => {
@@ -444,6 +449,14 @@ export class SearchPickerChoices extends EventObject {
 
         choice.onkeydown = (e) => {
             this.onKeyDown(e);
+        };
+
+        choice.onblur = (e) => {
+            this.onBlur();
+        };
+
+        choice.onfocus = (e) => {
+            this.onFocus();
         };
 
         choice.appendChild(this.options.choiceRenderer(item, this.options.maxSelectedChoices == 1));

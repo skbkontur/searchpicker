@@ -659,6 +659,7 @@ var SearchPickerChoices = (function (_super) {
     SearchPickerChoices.prototype.$renderChoice = function (item, index) {
         var _this = this;
         var choice = document.createElement('li');
+        choice.tabIndex = 0; //important to receive keyboard events
         choice.className = 'search-choice';
         choice.setAttribute('data-id', item.id.toString());
         if (this.options.maxSelectedChoices == 1) {
@@ -692,13 +693,21 @@ var SearchPickerChoices = (function (_super) {
             }
             //e.preventDefault();
             e.stopPropagation();
-            _this.inputElm.focus();
+            if (_this.inputElm.style.display !== "none") {
+                _this.inputElm.focus();
+            }
         };
         choice.onkeyup = function (e) {
             _this.onKeyUp(e);
         };
         choice.onkeydown = function (e) {
             _this.onKeyDown(e);
+        };
+        choice.onblur = function (e) {
+            _this.onBlur();
+        };
+        choice.onfocus = function (e) {
+            _this.onFocus();
         };
         choice.appendChild(this.options.choiceRenderer(item, this.options.maxSelectedChoices == 1));
         return choice;
