@@ -21,6 +21,8 @@ export class SearchPickerChoices extends EventObject {
     // флаг, обозначающий что пользователь не стирает текст, и есть смысл автодополнять
     private shouldUpdateAutoComplete: boolean;
 
+    private inputForbidden: boolean;
+
     constructor(private container: any
         , private options: ISearchPickerOptions) {
         super();
@@ -77,6 +79,7 @@ export class SearchPickerChoices extends EventObject {
     }
 
     canSelectMoreChoices(): boolean {
+        if (this.inputForbidden) return false;
         if (this.options.maxSelectedChoices <= 0) return true;
         return this.selected.length < this.options.maxSelectedChoices;
     }
@@ -110,6 +113,17 @@ export class SearchPickerChoices extends EventObject {
         }
     }
 
+
+    set forbidInput(val) {
+        if (val) {
+            this.inputForbidden = true;
+            this.disableInput(true);
+        } else {
+            this.inputForbidden = false;
+            this.disableInput(false);
+        }
+    }
+
     private escapeRegexp(text: string) {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     }
@@ -122,10 +136,10 @@ export class SearchPickerChoices extends EventObject {
 
     private scaleSearchField() {
         if (!this.canSelectMoreChoices()) {
-            this.inputElm.style.display = 'none';
-            this.keepActive = false;
-            this.onBlur();
+            this.disableInput(true);
             return;
+        } else {
+            this.disableInput(false);
         }
 
         let placeholderText = this.selected.length > 0 ? '' : this.options.placeholder;
@@ -140,6 +154,17 @@ export class SearchPickerChoices extends EventObject {
 
         if (this.inputElm.style.display !== 'block')
             this.inputElm.style.display = 'block';
+    }
+
+
+    private disableInput(disable: boolean) {
+        if (disable) {
+            this.inputElm.style.display = 'none';
+            this.keepActive = false;
+            this.onBlur();
+        } else {
+            this.inputElm.style.display = 'block';
+        }
     }
 
     private ensureSizerElement() {
@@ -165,7 +190,14 @@ export class SearchPickerChoices extends EventObject {
         this.container.onclick = () => {
             this.onClick();
         };
-        this.inputElm.onblur = () => {
+
+        this.inputElm.onblur = (e) => {
+            //prevent input blur when we are focusing on picker container, as it should behave as input
+            if ((e.relatedTarget && e.relatedTarget === this.container)
+                || document.activeElement === this.container/*IE*/) {
+                this.inputElm.focus();
+                return;
+            }
             this.onBlur();
         };
         this.inputElm.onfocus = () => {
@@ -188,6 +220,7 @@ export class SearchPickerChoices extends EventObject {
     }
 
     private onClick() {
+        this.onFocus();
         if (!this.canSelectMoreChoices())
             return;
         if (this.options.minLengthToSearch == 0 && this.isActive) {
@@ -210,7 +243,7 @@ export class SearchPickerChoices extends EventObject {
                 this.scaleSearchField();
                 break;
             case 13:
-                if(this.inputElm.value){
+                if (this.inputElm.value) {
                     evt.preventDefault();
                 }
                 this.$notifyEvent('enter', evt);
@@ -254,7 +287,7 @@ export class SearchPickerChoices extends EventObject {
             case 13:
             case 16:
             case 17:
-                if(this.inputElm.value){
+                if (this.inputElm.value) {
                     evt.preventDefault();
                 }
                 break;
@@ -366,9 +399,12 @@ export class SearchPickerChoices extends EventObject {
         if (this.isActive) return;
         Utility.addClass(this.container, 'active'); // active in ul root elem
         this.isActive = true;
+
         setTimeout(() => {
-            if (this.inFocus && document.activeElement === this.inputElm)
+            if (this.inFocus && (document.activeElement === this.inputElm || document.activeElement === this.container
+                    || (!this.canSelectMoreChoices() && Utility.hasClass(document.activeElement, 'search-choice')))) {
                 this.$notifyEvent('focus');
+            }
         }, 10);
     }
 
@@ -437,7 +473,7 @@ export class SearchPickerChoices extends EventObject {
 
             //e.preventDefault();
             e.stopPropagation();
-            if(this.inputElm.style.display !== "none"){
+            if (this.inputElm.style.display !== "none") {
                 this.inputElm.focus();
             }
 

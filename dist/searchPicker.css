@@ -36,6 +36,12 @@
   display: block;
   float: left;
 }
+
+
+.search-picker ul.form-control li.search-field{
+  min-height:24px;
+}
+
 .search-picker ul.form-control li.search-field input {
   margin: 0;
   padding: 0 0 0 5px;

@@ -368,6 +368,8 @@ var SearchPickerChoices = (function (_super) {
         return this.container.offsetHeight;
     };
     SearchPickerChoices.prototype.canSelectMoreChoices = function () {
+        if (this.inputForbidden)
+            return false;
         if (this.options.maxSelectedChoices <= 0)
             return true;
         return this.selected.length < this.options.maxSelectedChoices;
@@ -395,6 +397,20 @@ var SearchPickerChoices = (function (_super) {
             this.inputElm.value = this.inputElm.value.substring(0, this.inputElm.selectionStart);
         }
     };
+    Object.defineProperty(SearchPickerChoices.prototype, "forbidInput", {
+        set: function (val) {
+            if (val) {
+                this.inputForbidden = true;
+                this.disableInput(true);
+            }
+            else {
+                this.inputForbidden = false;
+                this.disableInput(false);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     SearchPickerChoices.prototype.escapeRegexp = function (text) {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     };
@@ -405,10 +421,11 @@ var SearchPickerChoices = (function (_super) {
     };
     SearchPickerChoices.prototype.scaleSearchField = function () {
         if (!this.canSelectMoreChoices()) {
-            this.inputElm.style.display = 'none';
-            this.keepActive = false;
-            this.onBlur();
+            this.disableInput(true);
             return;
+        }
+        else {
+            this.disableInput(false);
         }
         var placeholderText = this.selected.length > 0 ? '' : this.options.placeholder;
         this.inputElm.placeholder = placeholderText;
@@ -418,6 +435,16 @@ var SearchPickerChoices = (function (_super) {
         this.inputElm.style.width = w + 'px';
         if (this.inputElm.style.display !== 'block')
             this.inputElm.style.display = 'block';
+    };
+    SearchPickerChoices.prototype.disableInput = function (disable) {
+        if (disable) {
+            this.inputElm.style.display = 'none';
+            this.keepActive = false;
+            this.onBlur();
+        }
+        else {
+            this.inputElm.style.display = 'block';
+        }
     };
     SearchPickerChoices.prototype.ensureSizerElement = function () {
         if (!this.sizerElm) {
@@ -441,7 +468,13 @@ var SearchPickerChoices = (function (_super) {
         this.container.onclick = function () {
             _this.onClick();
         };
-        this.inputElm.onblur = function () {
+        this.inputElm.onblur = function (e) {
+            //prevent input blur when we are focusing on picker container, as it should behave as input
+            if ((e.relatedTarget && e.relatedTarget === _this.container)
+                || document.activeElement === _this.container /*IE*/) {
+                _this.inputElm.focus();
+                return;
+            }
             _this.onBlur();
         };
         this.inputElm.onfocus = function () {
@@ -462,6 +495,7 @@ var SearchPickerChoices = (function (_super) {
         };
     };
     SearchPickerChoices.prototype.onClick = function () {
+        this.onFocus();
         if (!this.canSelectMoreChoices())
             return;
         if (this.options.minLengthToSearch == 0 && this.isActive) {
@@ -632,8 +666,10 @@ var SearchPickerChoices = (function (_super) {
         __WEBPACK_IMPORTED_MODULE_1__Utils__["a" /* Utility */].addClass(this.container, 'active'); // active in ul root elem
         this.isActive = true;
         setTimeout(function () {
-            if (_this.inFocus && document.activeElement === _this.inputElm)
+            if (_this.inFocus && (document.activeElement === _this.inputElm || document.activeElement === _this.container
+                || (!_this.canSelectMoreChoices() && __WEBPACK_IMPORTED_MODULE_1__Utils__["a" /* Utility */].hasClass(document.activeElement, 'search-choice')))) {
                 _this.$notifyEvent('focus');
+            }
         }, 10);
     };
     SearchPickerChoices.prototype.removeChoiceElement = function (id) {
@@ -1283,6 +1319,12 @@ var SearchPicker = (function (_super) {
     };
     SearchPicker.prototype.focus = function () {
         this.choices.focus();
+    };
+    SearchPicker.prototype.allowInput = function () {
+        this.choices.forbidInput = false;
+    };
+    SearchPicker.prototype.forbidInput = function () {
+        this.choices.forbidInput = true;
     };
     SearchPicker.prototype.setupHtml = function () {
         __WEBPACK_IMPORTED_MODULE_4__Utils__["a" /* Utility */].addClass(this.container, 'container');
@@ -2452,7 +2494,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     });
     bindPickerResultOutput(searchPicker3, 'unlim');
     var searchPicker4 = new __WEBPACK_IMPORTED_MODULE_1__src__["SearchPicker"](document.getElementById('searchpicker-top3'), {
-        placeholder: 'Show only top3 results',
+        placeholder: 'Show only top3 results, max 3 choices',
         source: __WEBPACK_IMPORTED_MODULE_0__testdata__["a" /* TESTDATA */],
         resultsLimit: 3,
         maxSelectedChoices: 3

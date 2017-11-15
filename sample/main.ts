@@ -28,9 +28,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
     let searchPicker4 = new SearchPicker(document.getElementById('searchpicker-top3'), {
-        placeholder: 'Show only top3 results',
+        placeholder: 'Show only top3 results, max 3 choices',
         source: TESTDATA,
-        resultsLimit: 3
+        resultsLimit: 3,
+        maxSelectedChoices: 3
     });
     bindPickerResultOutput(searchPicker4,'top3');
 
@@ -50,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         resultFooterRenderer: CustomRenderers.footerRenderer
     });
     bindPickerResultOutput(searchPicker6,'footer');
-
 
     new CustomField("#searchpicker-customfield");
 });

@@ -51,6 +51,14 @@ export class SearchPicker extends EventObject {
         this.choices.focus();
     }
 
+    allowInput(){
+        this.choices.forbidInput = false;
+    }
+
+    forbidInput(){
+        this.choices.forbidInput = true;
+    }
+
     private setupHtml() {
         Utility.addClass(this.container, 'container');
         this.applyTemplate();
