@@ -1,6 +1,6 @@
 {
   "name": "searchpicker",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "",
   "main": "./lib/Index.js",
   "typings": "./lib/Index.d.ts",
