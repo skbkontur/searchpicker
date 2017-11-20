@@ -129,6 +129,47 @@ describe('search picker', function () {
             });
         });
     });
+    describe('emptiness css class', function () {
+        var EMPTY_CLASS = "__empty";
+        beforeAll(function () {
+            TestHelpers_2.openPage();
+        });
+        it('should be present on start', function () {
+            expect(protractor_1.element(protractor_1.by.css("#searchpicker ul.choices" + "." + EMPTY_CLASS)).isPresent()).toBeTruthy();
+        });
+        it('should be removed when something is in input', function () {
+            var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker li.search-field input"));
+            inputEl.sendKeys("test").then(function () {
+                expect(protractor_1.element(protractor_1.by.css("#searchpicker ul.choices")).getAttribute('class')).not.toMatch(EMPTY_CLASS);
+            });
+        });
+        it('should be added when input is cleared', function () {
+            var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker li.search-field input"));
+            inputEl.sendKeys(protractor_1.protractor.Key.chord(protractor_1.protractor.Key.CONTROL, "a"), protractor_1.protractor.Key.DELETE).then(function () {
+                expect(protractor_1.element(protractor_1.by.css("#searchpicker ul.choices")).getAttribute('class')).toMatch(EMPTY_CLASS);
+            });
+        });
+        it('should be removed when something is picked', function () {
+            var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker li.search-field input"));
+            inputEl.sendKeys("eul").then(function () {
+                protractor_1.browser.sleep(50);
+                inputEl.sendKeys(protractor_1.protractor.Key.ENTER).then(function () {
+                    expect(protractor_1.element(protractor_1.by.css("#searchpicker-result")).getText()).toContain("eswenson1@fda.gov");
+                    expect(protractor_1.element(protractor_1.by.css("#searchpicker ul.choices")).getAttribute('class')).not.toMatch(EMPTY_CLASS);
+                });
+            });
+        });
+        it('should be added when choices are cleared', function () {
+            var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker li.search-field input"));
+            inputEl.sendKeys(protractor_1.protractor.Key.BACK_SPACE, protractor_1.protractor.Key.BACK_SPACE).then(function () {
+                expect(protractor_1.element(protractor_1.by.css("#searchpicker ul.choices")).getAttribute('class')).toMatch(EMPTY_CLASS);
+            });
+            //
+            // inputEl.clear().then(() => {
+            //     expect(element(by.css("#searchpicker ul.choices")).getAttribute('class')).toMatch(EMPTY_CLASS);
+            // })
+        });
+    });
     describe('search', function () {
         beforeAll(function () {
             TestHelpers_2.openPage();

@@ -167,6 +167,56 @@ describe('search picker', () => {
 
     });
 
+    describe('emptiness css class', () => {
+        const EMPTY_CLASS = "__empty";
+
+        beforeAll(() => {
+            openPage();
+        });
+
+
+
+        it('should be present on start', () => {
+            expect(element(by.css("#searchpicker ul.choices" + "." + EMPTY_CLASS)).isPresent()).toBeTruthy();
+        });
+
+        it('should be removed when something is in input', () => {
+            let inputEl = element(by.css("#searchpicker li.search-field input"));
+
+            inputEl.sendKeys("test").then(() => {
+                expect(element(by.css("#searchpicker ul.choices")).getAttribute('class')).not.toMatch(EMPTY_CLASS);
+            })
+        });
+
+        it('should be added when input is cleared', () => {
+            let inputEl = element(by.css("#searchpicker li.search-field input"));
+
+            inputEl.sendKeys(protractor.Key.chord(protractor.Key.CONTROL, "a"),protractor.Key.DELETE).then(() => {
+                expect(element(by.css("#searchpicker ul.choices")).getAttribute('class')).toMatch(EMPTY_CLASS);
+            })
+        });
+
+        it('should be removed when something is picked', () => {
+            let inputEl = element(by.css("#searchpicker li.search-field input"));
+            inputEl.sendKeys("eul").then(() => {
+                browser.sleep(50);
+                inputEl.sendKeys(protractor.Key.ENTER).then(()=>{
+                    expect(element(by.css("#searchpicker-result")).getText()).toContain("eswenson1@fda.gov");
+                    expect(element(by.css("#searchpicker ul.choices")).getAttribute('class')).not.toMatch(EMPTY_CLASS);
+                })
+
+            })
+        });
+
+        it('should be added when choices are cleared', () => {
+            let inputEl = element(by.css("#searchpicker li.search-field input"));
+
+            inputEl.sendKeys(protractor.Key.BACK_SPACE, protractor.Key.BACK_SPACE).then(() => {
+                expect(element(by.css("#searchpicker ul.choices")).getAttribute('class')).toMatch(EMPTY_CLASS);
+            })
+        });
+    });
+
     describe('search', () => {
         beforeAll(() => {
             openPage();
