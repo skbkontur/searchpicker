@@ -16,9 +16,13 @@ export class SearchPicker extends EventObject {
     private choicesElm: any;
     private searchTmrId: number = null;
 
+    private isMobile:boolean;
+
     constructor(private container: any
         , options: ISearchPickerOptions) {
         super();
+
+        this.isMobile = isMobile();
         this.options = this.extendOptions(new DefaultSearchPickerOptions(), options);
         this.setupHtml();
         this.bindEvents();
@@ -62,7 +66,7 @@ export class SearchPicker extends EventObject {
     private setupHtml() {
         Utility.addClass(this.container, 'container');
         this.applyTemplate();
-        this.choices = new SearchPickerChoices(this.choicesElm, this.options);
+        this.choices = new SearchPickerChoices(this.choicesElm, this.options, this.isMobile);
         this.results = new SearchPickerResults(this.choicesElm, this.options);
     }
 
@@ -176,4 +180,16 @@ export class SearchPicker extends EventObject {
         return <ISearchPickerOptions>result;
     }
 
+
+
+}
+
+export function isMobile() {
+    return !!(navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i))
 }

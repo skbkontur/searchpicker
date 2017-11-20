@@ -3,6 +3,9 @@ import {IPickerItem} from "./pickeritems/IPickerItem";
 import {ISearchPickerOptions} from "./options/ISearchPickerOptions";
 import {Utility} from "./Utils";
 
+const EMPTY_PICKER_CSS_CLASS = "__empty";
+
+
 export class SearchPickerChoices extends EventObject {
 
     selected: IPickerItem[] = [];
@@ -21,11 +24,15 @@ export class SearchPickerChoices extends EventObject {
     // флаг, обозначающий что пользователь не стирает текст, и есть смысл автодополнять
     private shouldUpdateAutoComplete: boolean;
 
+    private isMobile:boolean;
+
     private inputForbidden: boolean;
 
     constructor(private container: any
-        , private options: ISearchPickerOptions) {
+        , private options: ISearchPickerOptions, isMobile?:boolean) {
         super();
+
+        this.isMobile = isMobile;
         this.sizerElm = <HTMLDivElement>document.getElementById('__srchpicker-sizer');
         if (this.sizerElm) {
             this.sizerElmText = <Text>this.sizerElm.childNodes[0];
@@ -39,6 +46,7 @@ export class SearchPickerChoices extends EventObject {
         this.container.insertBefore(this.$renderChoice(item, id), this.inputJsElmWrap);
         this.setSearchText('');
         this.scaleSearchField();
+        this.checkEmptiness();
     }
 
     removeChoice(item: IPickerItem) {
@@ -48,6 +56,7 @@ export class SearchPickerChoices extends EventObject {
                 this.removeChoiceElement(item.id.toString());
                 this.scaleSearchField();
                 this.$notifyEvent('choiceRemoved', item);
+                this.checkEmptiness();
                 return;
             }
         }
@@ -85,7 +94,7 @@ export class SearchPickerChoices extends EventObject {
     }
 
     setAutocompleteText(text: string) {
-        if (!this.shouldUpdateAutoComplete) {
+        if (!this.shouldUpdateAutoComplete || this.isMobile) {
             return;
         }
 
@@ -268,11 +277,14 @@ export class SearchPickerChoices extends EventObject {
         this.shouldUpdateAutoComplete = this.prevInputTextLength <= this.inputElm.value.length;
         this.prevInputTextLength = this.inputElm.value.length;
 
+
         if (this.canSelectMoreChoices()) {
             this.clearBackstroke();
             this.scaleSearchField();
             this.$notifyEvent('search', this.getSearchText());
         }
+
+        this.checkEmptiness();
     }
 
     private onKeyDown(evt: any) {
@@ -420,6 +432,8 @@ export class SearchPickerChoices extends EventObject {
     }
 
     private applyTemplate(): void {
+        Utility.addClass(this.container, EMPTY_PICKER_CSS_CLASS);
+
         this.inputJsElmWrap = document.createElement('li');
         this.inputJsElmWrap.className = 'search-field';
 
@@ -524,6 +538,14 @@ export class SearchPickerChoices extends EventObject {
         }
 
         return nodesToAdd;
+    }
+
+    private checkEmptiness(){
+        if(this.inputElm.value =="" && this.selected.length == 0){
+            Utility.addClass(this.container, EMPTY_PICKER_CSS_CLASS);
+        } else {
+            Utility.removeClass(this.container, EMPTY_PICKER_CSS_CLASS);
+        }
     }
 
 }
