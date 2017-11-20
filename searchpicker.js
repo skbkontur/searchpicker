@@ -311,9 +311,10 @@ var __extends = (this && this.__extends) || (function () {
 })();
 
 
+var EMPTY_PICKER_CSS_CLASS = "__empty";
 var SearchPickerChoices = (function (_super) {
     __extends(SearchPickerChoices, _super);
-    function SearchPickerChoices(container, options) {
+    function SearchPickerChoices(container, options, isMobile) {
         var _this = _super.call(this) || this;
         _this.container = container;
         _this.options = options;
@@ -321,6 +322,7 @@ var SearchPickerChoices = (function (_super) {
         _this.keepActive = false;
         _this.isActive = false;
         _this.pendingBackstroke = [];
+        _this.isMobile = isMobile;
         _this.sizerElm = document.getElementById('__srchpicker-sizer');
         if (_this.sizerElm) {
             _this.sizerElmText = _this.sizerElm.childNodes[0];
@@ -334,6 +336,7 @@ var SearchPickerChoices = (function (_super) {
         this.container.insertBefore(this.$renderChoice(item, id), this.inputJsElmWrap);
         this.setSearchText('');
         this.scaleSearchField();
+        this.checkEmptiness();
     };
     SearchPickerChoices.prototype.removeChoice = function (item) {
         for (var i = 0; i < this.selected.length; i++) {
@@ -342,6 +345,7 @@ var SearchPickerChoices = (function (_super) {
                 this.removeChoiceElement(item.id.toString());
                 this.scaleSearchField();
                 this.$notifyEvent('choiceRemoved', item);
+                this.checkEmptiness();
                 return;
             }
         }
@@ -375,7 +379,7 @@ var SearchPickerChoices = (function (_super) {
         return this.selected.length < this.options.maxSelectedChoices;
     };
     SearchPickerChoices.prototype.setAutocompleteText = function (text) {
-        if (!this.shouldUpdateAutoComplete) {
+        if (!this.shouldUpdateAutoComplete || this.isMobile) {
             return;
         }
         if (text && this.inputElm.value.length) {
@@ -545,6 +549,7 @@ var SearchPickerChoices = (function (_super) {
             this.scaleSearchField();
             this.$notifyEvent('search', this.getSearchText());
         }
+        this.checkEmptiness();
     };
     SearchPickerChoices.prototype.onKeyDown = function (evt) {
         switch (evt.keyCode) {
@@ -683,6 +688,7 @@ var SearchPickerChoices = (function (_super) {
         }
     };
     SearchPickerChoices.prototype.applyTemplate = function () {
+        __WEBPACK_IMPORTED_MODULE_1__Utils__["a" /* Utility */].addClass(this.container, EMPTY_PICKER_CSS_CLASS);
         this.inputJsElmWrap = document.createElement('li');
         this.inputJsElmWrap.className = 'search-field';
         this.inputElm = document.createElement('input');
@@ -770,6 +776,14 @@ var SearchPickerChoices = (function (_super) {
             e = e.nextSibling;
         }
         return nodesToAdd;
+    };
+    SearchPickerChoices.prototype.checkEmptiness = function () {
+        if (this.inputElm.value == "" && this.selected.length == 0) {
+            __WEBPACK_IMPORTED_MODULE_1__Utils__["a" /* Utility */].addClass(this.container, EMPTY_PICKER_CSS_CLASS);
+        }
+        else {
+            __WEBPACK_IMPORTED_MODULE_1__Utils__["a" /* Utility */].removeClass(this.container, EMPTY_PICKER_CSS_CLASS);
+        }
     };
     return SearchPickerChoices;
 }(__WEBPACK_IMPORTED_MODULE_0__EventObject__["a" /* EventObject */]));
@@ -1267,6 +1281,7 @@ function $map(source, options) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchPicker; });
+/* unused harmony export isMobile */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__EventObject__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SearchPickerChoices__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SearchPickerResults__ = __webpack_require__(4);
@@ -1294,6 +1309,7 @@ var SearchPicker = (function (_super) {
         _this.container = container;
         _this.pickerItems = [];
         _this.searchTmrId = null;
+        _this.isMobile = isMobile();
         _this.options = _this.extendOptions(new __WEBPACK_IMPORTED_MODULE_3__options_DefaultSearchPickerOptions__["a" /* DefaultSearchPickerOptions */](), options);
         _this.setupHtml();
         _this.bindEvents();
@@ -1329,7 +1345,7 @@ var SearchPicker = (function (_super) {
     SearchPicker.prototype.setupHtml = function () {
         __WEBPACK_IMPORTED_MODULE_4__Utils__["a" /* Utility */].addClass(this.container, 'container');
         this.applyTemplate();
-        this.choices = new __WEBPACK_IMPORTED_MODULE_1__SearchPickerChoices__["a" /* SearchPickerChoices */](this.choicesElm, this.options);
+        this.choices = new __WEBPACK_IMPORTED_MODULE_1__SearchPickerChoices__["a" /* SearchPickerChoices */](this.choicesElm, this.options, this.isMobile);
         this.results = new __WEBPACK_IMPORTED_MODULE_2__SearchPickerResults__["a" /* SearchPickerResults */](this.choicesElm, this.options);
     };
     SearchPicker.prototype.bindEvents = function () {
@@ -1430,6 +1446,15 @@ var SearchPicker = (function (_super) {
     return SearchPicker;
 }(__WEBPACK_IMPORTED_MODULE_0__EventObject__["a" /* EventObject */]));
 
+function isMobile() {
+    return !!(navigator.userAgent.match(/Android/i)
+        || navigator.userAgent.match(/webOS/i)
+        || navigator.userAgent.match(/iPhone/i)
+        || navigator.userAgent.match(/iPad/i)
+        || navigator.userAgent.match(/iPod/i)
+        || navigator.userAgent.match(/BlackBerry/i)
+        || navigator.userAgent.match(/Windows Phone/i));
+}
 
 
 /***/ })

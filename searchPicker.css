@@ -136,6 +136,8 @@
 .search-picker ul.form-control li.search-choice.sole-choice span {
   padding-left:8px;
   line-height: 22px;
+  padding-right: 20px;
+  box-sizing: border-box;
 }
 
 .search-picker ul.form-control li.search-choice.sole-choice:focus,
