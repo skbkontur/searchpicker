@@ -318,6 +318,50 @@ describe('search picker', () => {
 
     });
 
+
+    describe('selected choices limits', () => {
+        beforeAll(() => {
+            openPage();
+        });
+
+        it('input should not be blocked when below limit', () => {
+            let inputEl = element(by.css("#searchpicker-top3 li.search-field input"));
+            inputEl.sendKeys("Dap").then(() => {
+                sleep(100);
+                return element(by.css("#searchpicker-top3 li.result[data-id=\"dfantonetti0@mashable.com\"]")).click()
+            }).then(() => {
+                inputEl.sendKeys("Ede");
+                sleep(100);
+                return element(by.css("#searchpicker-top3 li.result[data-id=\"eclementson4@ucla.edu\"]")).click()
+            }).then(() => {
+                expect(inputEl.isDisplayed()).toBeTruthy();
+            });
+        });
+
+        it('should block input when limit is reached ', () => {
+            let inputEl = element(by.css("#searchpicker-top3 li.search-field input"));
+            inputEl.sendKeys("Ezm");
+            sleep(100);
+            element(by.css("#searchpicker-top3 li.result[data-id=\"eleppington7@pinterest.com\"]")).click().then(()=>{
+                expect(inputEl.isDisplayed()).toBeFalsy();
+            });
+
+        });
+
+        it('should unblock input when something is removed after limit is reached', () => {
+            let inputEl = element(by.css("#searchpicker-top3 li.search-field input"));
+            expect(inputEl.isDisplayed()).toBeFalsy();
+            let selected = element(by.css("#searchpicker-top3 li.search-choice[data-id=\"eclementson4@ucla.edu\"]"));
+
+            selected.click().then(()=>{
+                return selected.sendKeys(protractor.Key.BACK_SPACE);
+            }).then(()=>{
+                expect(inputEl.isDisplayed()).toBeTruthy();
+            });
+        });
+
+    });
+
     describe('results without choices', () => {
         beforeAll(() => {
             openPage();

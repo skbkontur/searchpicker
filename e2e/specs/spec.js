@@ -164,10 +164,6 @@ describe('search picker', function () {
             inputEl.sendKeys(protractor_1.protractor.Key.BACK_SPACE, protractor_1.protractor.Key.BACK_SPACE).then(function () {
                 expect(protractor_1.element(protractor_1.by.css("#searchpicker ul.choices")).getAttribute('class')).toMatch(EMPTY_CLASS);
             });
-            //
-            // inputEl.clear().then(() => {
-            //     expect(element(by.css("#searchpicker ul.choices")).getAttribute('class')).toMatch(EMPTY_CLASS);
-            // })
         });
     });
     describe('search', function () {
@@ -251,6 +247,42 @@ describe('search picker', function () {
                         });
                     });
                 });
+            });
+        });
+    });
+    describe('selected choices limits', function () {
+        beforeAll(function () {
+            TestHelpers_2.openPage();
+        });
+        it('input should not be blocked when below limit', function () {
+            var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.search-field input"));
+            inputEl.sendKeys("Dap").then(function () {
+                TestHelpers_1.sleep(100);
+                return protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.result[data-id=\"dfantonetti0@mashable.com\"]")).click();
+            }).then(function () {
+                inputEl.sendKeys("Ede");
+                TestHelpers_1.sleep(100);
+                return protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.result[data-id=\"eclementson4@ucla.edu\"]")).click();
+            }).then(function () {
+                expect(inputEl.isDisplayed()).toBeTruthy();
+            });
+        });
+        it('should block input when limit is reached ', function () {
+            var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.search-field input"));
+            inputEl.sendKeys("Ezm");
+            TestHelpers_1.sleep(100);
+            protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.result[data-id=\"eleppington7@pinterest.com\"]")).click().then(function () {
+                expect(inputEl.isDisplayed()).toBeFalsy();
+            });
+        });
+        it('should unblock input when something is removed after limit is reached', function () {
+            var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.search-field input"));
+            expect(inputEl.isDisplayed()).toBeFalsy();
+            var selected = protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.search-choice[data-id=\"eclementson4@ucla.edu\"]"));
+            selected.click().then(function () {
+                return selected.sendKeys(protractor_1.protractor.Key.BACK_SPACE);
+            }).then(function () {
+                expect(inputEl.isDisplayed()).toBeTruthy();
             });
         });
     });
