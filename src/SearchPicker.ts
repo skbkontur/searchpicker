@@ -106,7 +106,7 @@ export class SearchPicker extends EventObject {
         this.choices.on('arrowUp', () => this.results.moveSelectedUp());
         this.choices.on('choiceRemoved', item => this.onChoiceRemoved(item));
 
-        this.results.on('resultSelected', result => this.onResultSelected(result));
+        this.results.on('resultSelected', (result,selectedVia, rank, count) => this.onResultSelected(result, selectedVia, rank, count ));
 
         this.results.on('highlight', ({item, changed}) => {
             if (item) {
@@ -150,12 +150,12 @@ export class SearchPicker extends EventObject {
         this.results.selectHighlighted(selectedVia);
     }
 
-    private onResultSelected(result: IPickerItem) {
+    private onResultSelected(result: IPickerItem, selectedVia?: string, rank?: number, totalCount?:number) {
         this.choices.addChoice(result);
         this.results.hide();
         this.results.addSelectedResult(result);
         this.results.setTop(this.choices.getHeight());
-        this.$notifyEvent('choiceAdded', result);
+        this.$notifyEvent('choiceAdded', result, selectedVia, rank, totalCount);
     }
 
     private applyTemplate() {

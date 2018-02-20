@@ -77,7 +77,7 @@ export class SearchPickerResults extends EventObject {
         let id = Utility.getAttribute(this.highlightedEl, 'data-id');
         let item = this.getItemById(id);
         if (item != null)
-            this.$notifyEvent('resultSelected', item, selectedVia);
+            this.$notifyEvent('resultSelected', item, selectedVia, this.items.indexOf(item)+1, this.items.length);
 
         this.setProcessSearchResponses(false);
     }
@@ -259,7 +259,7 @@ export class SearchPickerResults extends EventObject {
             let id = Utility.getAttribute(result, 'data-id');
             let item = this.getItemById(id);
             if (item != null)
-                this.$notifyEvent('resultSelected', item, 'click');
+                this.$notifyEvent('resultSelected', item, 'click', this.items.indexOf(item)+1, this.items.length);
             return false;
         };
     }
