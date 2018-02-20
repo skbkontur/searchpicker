@@ -187,7 +187,7 @@ export class SearchPickerResults extends EventObject {
             this.resultsElm.innerHTML = '';
             this.items = items;
 
-            let hasResults = false;
+            let numResults = 0;
             if (items.length) {
                 for (let i = 0; i < items.length; i++) {
                     //блеклист
@@ -203,14 +203,14 @@ export class SearchPickerResults extends EventObject {
                     let result = this.$buildResult(items[i], query);
                     if (result != null) {
                         this.resultsElm.appendChild(result);
-                        hasResults = true;
+                        numResults++;
                     }
                 }
             }
 
             this.clearHighlighted();
 
-            if (!hasResults) {
+            if (numResults == 0) {
                 if (this.hideOnEmptyResults) {
                     this.hide();
                     return;
@@ -226,7 +226,7 @@ export class SearchPickerResults extends EventObject {
                 }
             }
 
-
+            this.$notifyEvent('afterSearch', {query, results: items, appended: numResults});
             this.show();
 
 
