@@ -226,7 +226,7 @@ export class SearchPickerResults extends EventObject {
                 }
             }
 
-            this.$notifyEvent('afterSearch', items, numResults);
+            this.$notifyEvent('afterSearch', query, items, numResults);
             this.show();
 
 
