@@ -43,6 +43,7 @@
 }
 
 .search-picker ul.form-control li.search-field {
+    margin: 2px 0;
     min-height: 24px;
 }
 
@@ -180,7 +181,7 @@
 }
 
 .search-picker li.search-choice.sole-choice .search-choice-close:after {
-    line-height: 30px;
+    line-height: 28px;
     font-size: 25px;
     left: 0;
     top: 0;
