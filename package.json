@@ -1,9 +1,9 @@
 {
   "name": "searchpicker",
-  "version": "1.0.12",
+  "version": "1.2.0",
   "description": "",
-  "main": "./lib/Index.js",
-  "typings": "./lib/Index.d.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
   "scripts": {
     "postinstall": "webdriver-manager update",
     "start": "webpack-dev-server --config webpack.config.js --progress --profile --watch",
