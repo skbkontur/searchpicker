@@ -30,7 +30,6 @@
     "npm-run-all": "^4.0.2",
     "protractor": "^5.1.2",
     "rimraf": "^2.6.1",
-    "selenium-standalone": "^5.7.2",
     "selenium-webdriver": "^3.0.0",
     "typescript": "^2.4.1",
     "webpack": "^3.4.1",
