@@ -69,7 +69,7 @@
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Utility; });
-var Utility = (function () {
+var Utility = /** @class */ (function () {
     function Utility() {
     }
     Utility.wrapResultText = function (source, query) {
@@ -211,7 +211,7 @@ var Utility = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventObject; });
-var EventObject = (function () {
+var EventObject = /** @class */ (function () {
     function EventObject() {
         this.events = {};
     }
@@ -249,7 +249,7 @@ var EventObject = (function () {
 
 
 
-var DefaultSearchPickerOptions = (function () {
+var DefaultSearchPickerOptions = /** @class */ (function () {
     function DefaultSearchPickerOptions() {
         this.source = [];
         this.placeholder = '';
@@ -312,7 +312,7 @@ var __extends = (this && this.__extends) || (function () {
 
 
 var EMPTY_PICKER_CSS_CLASS = "__empty";
-var SearchPickerChoices = (function (_super) {
+var SearchPickerChoices = /** @class */ (function (_super) {
     __extends(SearchPickerChoices, _super);
     function SearchPickerChoices(container, options, isMobile) {
         var _this = _super.call(this) || this;
@@ -554,7 +554,7 @@ var SearchPickerChoices = (function (_super) {
     SearchPickerChoices.prototype.onKeyDown = function (evt) {
         switch (evt.keyCode) {
             case 46:
-            case 8://backspace & del
+            case 8: //backspace & del
                 this.backstrokeLength = this.inputElm.value.length;
                 break;
             case 9:
@@ -810,7 +810,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 
 
-var SearchPickerResults = (function (_super) {
+var SearchPickerResults = /** @class */ (function (_super) {
     __extends(SearchPickerResults, _super);
     function SearchPickerResults(sourceElm, options) {
         var _this = _super.call(this) || this;
@@ -880,7 +880,7 @@ var SearchPickerResults = (function (_super) {
         var id = __WEBPACK_IMPORTED_MODULE_0__Utils__["a" /* Utility */].getAttribute(this.highlightedEl, 'data-id');
         var item = this.getItemById(id);
         if (item != null)
-            this.$notifyEvent('resultSelected', item, selectedVia);
+            this.$notifyEvent('resultSelected', item, this.lastSearchQuery, selectedVia, this.items.indexOf(item) + 1, this.items.length);
         this.setProcessSearchResponses(false);
     };
     SearchPickerResults.prototype.setTop = function (top) {
@@ -973,7 +973,7 @@ var SearchPickerResults = (function (_super) {
             }
             _this.resultsElm.innerHTML = '';
             _this.items = items;
-            var hasResults = false;
+            var numResults = 0;
             if (items.length) {
                 for (var i = 0; i < items.length; i++) {
                     //блеклист
@@ -987,12 +987,12 @@ var SearchPickerResults = (function (_super) {
                     var result = _this.$buildResult(items[i], query);
                     if (result != null) {
                         _this.resultsElm.appendChild(result);
-                        hasResults = true;
+                        numResults++;
                     }
                 }
             }
             _this.clearHighlighted();
-            if (!hasResults) {
+            if (numResults == 0) {
                 if (_this.hideOnEmptyResults) {
                     _this.hide();
                     return;
@@ -1007,6 +1007,7 @@ var SearchPickerResults = (function (_super) {
                     _this.resultsElm.appendChild(footer);
                 }
             }
+            _this.$notifyEvent('afterSearch', query, items, numResults);
             _this.show();
         }, function (message) {
             _this.resultsElm.appendChild(_this.$buildErrorResult(message));
@@ -1035,7 +1036,7 @@ var SearchPickerResults = (function (_super) {
             var id = __WEBPACK_IMPORTED_MODULE_0__Utils__["a" /* Utility */].getAttribute(result, 'data-id');
             var item = _this.getItemById(id);
             if (item != null)
-                _this.$notifyEvent('resultSelected', item, 'click');
+                _this.$notifyEvent('resultSelected', item, _this.lastSearchQuery, 'click', _this.items.indexOf(item) + 1, _this.items.length);
             return false;
         };
     };
@@ -1224,7 +1225,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DefaultPickerItem; });
-var DefaultPickerItem = (function () {
+var DefaultPickerItem = /** @class */ (function () {
     function DefaultPickerItem() {
     }
     DefaultPickerItem.create = function (id, title) {
@@ -1246,7 +1247,7 @@ var DefaultPickerItem = (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DefaultSearcher; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Utils__ = __webpack_require__(0);
 
-var DefaultSearcher = (function () {
+var DefaultSearcher = /** @class */ (function () {
     function DefaultSearcher() {
         this.pickerItems = null;
         this.foundItems = [];
@@ -1256,7 +1257,7 @@ var DefaultSearcher = (function () {
         if (this.tmrId)
             clearTimeout(this.tmrId);
         this.tmrId = setTimeout(function () {
-            if (!_this.pickerItems)
+            if (!_this.pickerItems) //TODO updating...
                 _this.pickerItems = $map(options.source, options);
             _this.foundItems = __WEBPACK_IMPORTED_MODULE_0__Utils__["a" /* Utility */].filterItems(_this.pickerItems, query, options);
             _this.tmrId = null;
@@ -1302,7 +1303,7 @@ var __extends = (this && this.__extends) || (function () {
 
 
 
-var SearchPicker = (function (_super) {
+var SearchPicker = /** @class */ (function (_super) {
     __extends(SearchPicker, _super);
     function SearchPicker(container, options) {
         var _this = _super.call(this) || this;
@@ -1380,7 +1381,7 @@ var SearchPicker = (function (_super) {
         this.choices.on('arrowDown', function () { return _this.results.moveSelectedDown(); });
         this.choices.on('arrowUp', function () { return _this.results.moveSelectedUp(); });
         this.choices.on('choiceRemoved', function (item) { return _this.onChoiceRemoved(item); });
-        this.results.on('resultSelected', function (result) { return _this.onResultSelected(result); });
+        this.results.on('resultSelected', function (result, query, selectedVia, rank, count) { return _this.onResultSelected(result, query, selectedVia, rank, count); });
         this.results.on('highlight', function (_a) {
             var item = _a.item, changed = _a.changed;
             if (item) {
@@ -1416,16 +1417,15 @@ var SearchPicker = (function (_super) {
         e.preventDefault();
         this.results.selectHighlighted(selectedVia);
     };
-    SearchPicker.prototype.onResultSelected = function (result) {
+    SearchPicker.prototype.onResultSelected = function (result, query, selectedVia, rank, totalCount) {
         this.choices.addChoice(result);
         this.results.hide();
         this.results.addSelectedResult(result);
         this.results.setTop(this.choices.getHeight());
-        this.$notifyEvent('choiceAdded', result);
+        this.$notifyEvent('choiceAdded', result, query, selectedVia, rank, totalCount);
     };
     SearchPicker.prototype.applyTemplate = function () {
         this.choicesElm = document.createElement('ul');
-        this.choicesElm.setAttribute("tabindex", 0);
         this.choicesElm.className = 'choices form-control';
         if (this.options.maxSelectedChoices === 1) {
             __WEBPACK_IMPORTED_MODULE_4__Utils__["a" /* Utility */].addClass(this.choicesElm, "sole-choice");
