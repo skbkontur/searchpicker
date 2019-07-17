@@ -13,7 +13,7 @@
     "build:demo": "rimraf dist/* && webpack --config webpack.config.js --progress --profile",
     "build:test": "tsc -p e2e",
     "build:lib": "rimraf lib/* && tsc -p tsconfig.lib.json",
-    "githubpages": "git subtree push --prefix dist origin gh-pages",
+    "githubpages": "git subtree split --prefix dist -b gh-pages && git push -f origin gh-pages:gh-pages && git branch -D gh-pages",
     "server:ci": "http-server dist -p 3000 -c-1 --cors"
   },
   "license": "MIT",
