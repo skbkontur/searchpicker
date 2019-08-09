@@ -44,7 +44,7 @@ export class SearchPickerChoices extends EventObject {
         let id = this.selected.push(item) - 1;
         //insert new choice item into DOM
         this.container.insertBefore(this.$renderChoice(item, id), this.inputJsElmWrap);
-        this.setSearchText('');
+        this.inputElm.value = '';
         this.scaleSearchField();
         this.checkEmptiness();
     }
@@ -75,6 +75,7 @@ export class SearchPickerChoices extends EventObject {
 
     setSearchText(val: string) {
         this.inputElm.value = val;
+        this.checkEmptiness();
     }
 
     focus() {
