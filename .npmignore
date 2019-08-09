@@ -3,10 +3,13 @@ CustomField.ts
 index.html
 testdata.ts
 tsconfig.json
+tsconfig.lib.json
 webpack.config.js
 e2e/
 dist/
 sample/
+.idea/
+.travis.yml
 
 
 
