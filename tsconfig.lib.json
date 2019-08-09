@@ -5,7 +5,11 @@
     "sourceMap": true,
     "declaration": true,
     "outDir": "./lib",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "lib": [
+      "dom",
+      "es6"
+    ]
   },
   "exclude": [
     "node_modules",

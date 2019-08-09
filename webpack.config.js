@@ -28,7 +28,7 @@ module.exports = {
 
     // Add the loader for .ts files.
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.ts$/,
                 loader: 'awesome-typescript-loader?configFileName=./tsconfig.json'

@@ -409,7 +409,7 @@ export class SearchPickerResults extends EventObject {
         Utility.addClass(this.highlightedEl, 'highlighted');
     }
 
-    private $foreachResult(cb: (result: Node) => void) {
+    private $foreachResult(cb: (result: Node) => boolean) {
         let liCollection = this.resultsElm.childNodes;
         for (let i = 0; i < liCollection.length; i++) {
             if (!cb(liCollection[i]))
