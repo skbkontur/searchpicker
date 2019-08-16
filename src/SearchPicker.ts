@@ -85,6 +85,7 @@ export class SearchPicker extends EventObject {
         });
         this.choices.on('blur', () => {
             this.inFocus = false;
+            this.results.setProcessSearchResponses(false);
             this.results.hide();
         });
         this.choices.on('focus', () => {
@@ -96,6 +97,7 @@ export class SearchPicker extends EventObject {
         });
 
         this.choices.on('tab', (e) => {
+            this.choices.keepActive = false;
             this.onSelect(e, 'tab');
         });
         this.choices.on('enter', (e) => {
@@ -125,8 +127,6 @@ export class SearchPicker extends EventObject {
             this.results.search(text);
             this.results.setProcessSearchResponses(true);
         }
-
-
     }
 
     private onChoiceRemoved(item: IPickerItem) {

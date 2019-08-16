@@ -231,6 +231,7 @@ export class SearchPickerResults extends EventObject {
 
 
         }, (message) => {
+            this.resultsElm.innerHTML = '';
             this.resultsElm.appendChild(this.$buildErrorResult(message));
         });
     }
