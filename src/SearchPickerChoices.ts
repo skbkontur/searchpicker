@@ -278,7 +278,6 @@ export class SearchPickerChoices extends EventObject {
         this.shouldUpdateAutoComplete = this.prevInputTextLength <= this.inputElm.value.length;
         this.prevInputTextLength = this.inputElm.value.length;
 
-
         if (this.canSelectMoreChoices()) {
             this.clearBackstroke();
             this.scaleSearchField();
@@ -397,7 +396,7 @@ export class SearchPickerChoices extends EventObject {
         if (!this.isActive) return;
         setTimeout(() => {
 
-            if (!this.keepActive) {
+            if (!this.keepActive && !this.inFocus) {
 
                 Utility.removeClass(this.container, 'active'); // active in ul root elem
                 this.isActive = false;
@@ -414,8 +413,11 @@ export class SearchPickerChoices extends EventObject {
         this.isActive = true;
 
         setTimeout(() => {
-            if (this.inFocus && (document.activeElement === this.inputElm || document.activeElement === this.container
-                    || (!this.canSelectMoreChoices() && Utility.hasClass(document.activeElement, 'search-choice')))) {
+            if (this.inFocus && (
+                document.activeElement === this.inputElm ||
+                document.activeElement === this.container ||
+                this.canSelectMoreChoices() && Utility.hasClass(document.activeElement, 'search-choice')
+            )) {
                 this.$notifyEvent('focus');
             }
         }, 10);
