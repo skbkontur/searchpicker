@@ -275,6 +275,13 @@ describe('search picker', function () {
                 expect(inputEl.isDisplayed()).toBeFalsy();
             });
         });
+        it('should focus last choice when click on container after limit is reached', function () {
+            var container = protractor_1.element(protractor_1.by.css("#searchpicker-top3"));
+            var lastChoice = protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.search-choice[data-id=\"eleppington7@pinterest.com\"]"));
+            container.click().then(function () {
+                expect(TestHelpers_1.hasClass(lastChoice, "search-choice-focus")).toBeTruthy();
+            });
+        });
         it('should unblock input when something is removed after limit is reached', function () {
             var inputEl = protractor_1.element(protractor_1.by.css("#searchpicker-top3 li.search-field input"));
             expect(inputEl.isDisplayed()).toBeFalsy();

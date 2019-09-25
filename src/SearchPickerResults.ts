@@ -249,6 +249,8 @@ export class SearchPickerResults extends EventObject {
 
     private bindEvents() {
         this.dropdownElm.onclick = e => {
+            e.preventDefault();
+            e.stopPropagation();
             let result = e.target;
             while (result != null) {
                 if (Utility.hasClass(result, 'result'))

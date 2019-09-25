@@ -79,7 +79,15 @@ export class SearchPickerChoices extends EventObject {
     }
 
     focus() {
-        if (!this.canSelectMoreChoices()) return;
+        if (!this.canSelectMoreChoices()) {
+            const length = this.container.childNodes.length;
+            if (length > 1) {
+                const choiceNode = this.container.childNodes.item(length - 2);
+                choiceNode.focus();
+                choiceNode.click();
+            }
+            return;
+        }
         this.onFocus();
         this.inputElm.focus();
     }
