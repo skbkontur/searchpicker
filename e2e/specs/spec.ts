@@ -348,6 +348,15 @@ describe('search picker', () => {
 
         });
 
+        it('should focus last choice when click on container after limit is reached', () => {
+            let container = element(by.css("#searchpicker-top3"));
+            let lastChoice = element(by.css("#searchpicker-top3 li.search-choice[data-id=\"eleppington7@pinterest.com\"]"));
+
+            container.click().then(()=>{
+                expect(hasClass(lastChoice, "search-choice-focus")).toBeTruthy();
+            });
+        });
+
         it('should unblock input when something is removed after limit is reached', () => {
             let inputEl = element(by.css("#searchpicker-top3 li.search-field input"));
             expect(inputEl.isDisplayed()).toBeFalsy();
