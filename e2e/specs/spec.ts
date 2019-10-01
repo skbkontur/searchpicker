@@ -101,7 +101,7 @@ describe('search picker', () => {
         it('should select last choice on bksp', () => {
             let inputEl = element(by.css("#searchpicker li.search-field input"));
 
-            let selEl = element.all(by.css("#searchpicker ul.choices li.search-choice")).get(-1)
+            let selEl = element.all(by.css("#searchpicker ul.choices li.search-choice")).get(-1);
 
             inputEl.sendKeys(protractor.Key.BACK_SPACE).then(() => {
 
@@ -244,6 +244,33 @@ describe('search picker', () => {
                 browser.sleep(100);
                 expect(element.all(by.css("#searchpicker-top3 .dropdown-menu li.result")).count()).toBe(3);
             })
+        });
+
+    });
+
+    describe('single choice', () => {
+        beforeAll(() => {
+            let inputEl;
+            openPage().then(() => {
+                inputEl = element(by.css("#searchpicker-singlechoice li.search-field input"));
+                return inputEl.click();
+            }).then(() => {
+                sleep(100);
+                return element(by.css("#searchpicker-singlechoice li.result[data-id=\"eswenson1@fda.gov\"]")).click()
+            }).then(() => {
+                return element(by.css("body")).click();
+            });
+        });
+
+        it('results should be displayed on remove choice after select that', () => {
+            let choice = element(by.css("#searchpicker-singlechoice li.search-choice[data-id=\"eswenson1@fda.gov\"]"));
+
+            choice.click().then(() => {
+                return element(by.css("#searchpicker-singlechoice .search-choice-close")).click();
+            }).then(() => {
+                sleep(100);
+                expect(element(by.css("#searchpicker-singlechoice .dropdown-menu")).isDisplayed()).toBeTruthy();
+            });
         });
 
     });

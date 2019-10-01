@@ -88,10 +88,7 @@ export class SearchPicker extends EventObject {
             this.results.setProcessSearchResponses(false);
             this.results.hide();
         });
-        this.choices.on('focus', () => {
-            this.inFocus = true;
-            this.onSearch(this.choices.getSearchText());
-        });
+        this.choices.on('focus', () => this.onChoiceFocus());
         this.choices.on('escape', () => {
             this.onEscape();
         });
@@ -133,6 +130,13 @@ export class SearchPicker extends EventObject {
         this.results.removeSelectedResult(item);
         this.$notifyEvent('choiceRemoved', item);
         this.results.setTop(this.choices.getHeight());
+        if (!this.choices.selected.length) {
+            this.onChoiceFocus();
+        }
+    }
+    private onChoiceFocus() {
+        this.inFocus = true;
+        this.onSearch(this.choices.getSearchText());
     }
 
     private onClick() {
