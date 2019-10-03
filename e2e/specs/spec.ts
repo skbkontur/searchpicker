@@ -262,7 +262,7 @@ describe('search picker', () => {
             });
         });
 
-        it('results should be displayed on remove choice after select that', () => {
+        it('results should be displayed after existing choice is removed', () => {
             let choice = element(by.css("#searchpicker-singlechoice li.search-choice[data-id=\"eswenson1@fda.gov\"]"));
 
             choice.click().then(() => {

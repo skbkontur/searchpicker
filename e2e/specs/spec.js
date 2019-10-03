@@ -203,7 +203,7 @@ describe('search picker', function () {
                 return protractor_1.element(protractor_1.by.css("body")).click();
             });
         });
-        it('results should be displayed on remove choice after select that', function () {
+        it('results should be displayed after existing choice is removed', function () {
             var choice = protractor_1.element(protractor_1.by.css("#searchpicker-singlechoice li.search-choice[data-id=\"eswenson1@fda.gov\"]"));
             choice.click().then(function () {
                 return protractor_1.element(protractor_1.by.css("#searchpicker-singlechoice .search-choice-close")).click();
