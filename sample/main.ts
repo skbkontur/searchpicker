@@ -10,6 +10,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         minLengthToSearch: 0
     });
     bindPickerResultOutput(searchPicker);
+    document.querySelector("#update_placeholder").addEventListener("click", ()=> {
+        searchPicker.choices.updatePlaceholder("Placeholder " + Math.random());
+    })
 
     let searchPicker2 = new SearchPicker(document.getElementById('searchpicker-singlechoice'), {
         placeholder: 'Only 1 choice',

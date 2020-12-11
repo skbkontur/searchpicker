@@ -131,6 +131,11 @@ export class SearchPickerChoices extends EventObject {
         }
     }
 
+    updatePlaceholder(text: string) {
+        this.options.placeholder = text;
+        this.scaleSearchField();
+    }
+
 
     set forbidInput(val) {
         if (val) {
